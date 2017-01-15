@@ -61,12 +61,14 @@ forms:
     Calibri\",bold=False),row=row_num, col_xs=col_num-2, width_xs=2)\n        if col_num\
     \ > 6 and col_num < 12:\n          row_holder.add_component(Label(text=cell_text,font_size=10,font=\"\
     Calibri\",bold=False),row=row_num, col_xs=col_num-2, width_xs=1)\n        if col_num\
-    \ == 12:\n          more_info_link = Link(text=\"More...\",url=\"www.nsamr.org\"\
+    \ == 12:\n          more_info_link = Link(text=\"Email NSAMR...\",url=\"http://www.nsamr.org/contact-us\"\
     ,font_size=12,font=\"Calibri\",bold=False);\n          row_holder.add_component(more_info_link,row=row_num,col_xs=col_num-2,\
     \ width_xs=1)\n          more_info_link.set_event_handler(\"click\", self.popup_box,\
     \ row_num)\n\n        col_num = col_num + 1\n      row_num = row_num + 1\n   \
-    \   self.column_panel_rows.add_component(row_holder)\n    pass\n    \n    \n \
-    \ def __init__(self, **kwargs):\n\n    # REQUIRED CALL\n    self.init_components(**kwargs)\
+    \   row_holder.add_component(Label(text=row[\"moreinfo\"],font_size=10,font=\"\
+    Calibri\",bold=False, italic=True),row=row_num, col_xs=1, width_xs=10)\n     \
+    \ self.column_panel_rows.add_component(row_holder)\n    pass\n    \n    \n  def\
+    \ __init__(self, **kwargs):\n\n    # REQUIRED CALL\n    self.init_components(**kwargs)\
     \    \n    \n    # Set background colours\n    self.grid_panel_container.background=\"\
     #eeeeee\"\n    self.column_panel_header.background=\"#eeeeee\"\n    self.column_panel_rows.background=\"\
     #eeeeee\"    \n    \n    self.grid_panel_container.row_spacing = 0\n    \n   \
