@@ -161,7 +161,7 @@ forms:
     name: spacer_6
     layout_properties: {grid_position: 'RVMFTR,LFWFVA'}
 $promise: {}
-name: NSAMR -- Update research project database
+name: NSAMR -- Research -- Update research project database
 services:
 - source: /runtime/services/tables.yml
   client_config: {}
