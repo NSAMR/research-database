@@ -68,10 +68,10 @@ forms:
     left\"),row=row_num+1, col_xs=9, width_xs=1)\n      row_holder.add_component(Label(text=\"\
     %s\" % row[\"numberofstudents\"].strip(),font_size=11,font=\"Calibri\",align=\"\
     center\"),row=row_num+1, col_xs=10, width_xs=1)\n\n      link_text=Link(text=\"\
-    Email NSAMR for more info\",url=\"http://www.nsamr.org/contact-us\",font_size=11,font=\"\
-    Calibri\",align=\"left\")\n      link_text.set_event_handler(\"click\", self.popup_box,\
-    \ row_num)\n      row_holder.add_component(link_text,row=row_num+1, col_xs=11,\
-    \ width_xs=1)      \n\n      # Make description row 2\n      row_holder.add_component(Label(text=row[\"\
+    Apply now\",url=\"https://5LA65CXF3DRW6INM.anvilapp.net/MPTTWEL3SDKIOSZGPHELHKAW\"\
+    ,font_size=11,font=\"Calibri\",align=\"left\")\n      link_text.set_event_handler(\"\
+    click\", self.popup_box, row_num)\n      row_holder.add_component(link_text,row=row_num+1,\
+    \ col_xs=11, width_xs=1)      \n\n      # Make description row 2\n      row_holder.add_component(Label(text=row[\"\
     moreinfo\"],font_size=11,font=\"Calibri\",italic=True),row=row_num+2, col_xs=1,\
     \ width_xs=10)\n      self.column_panel_rows.add_component(row_holder)\n     \
     \ \n      # All done\n      row_num = row_num + 1\n    pass\n    \n  def __init__(self,\
@@ -111,12 +111,9 @@ forms:
     header\", col_xs=9, width_xs=1)\n    header_holder.add_component(Label(text=\"\
     Number of student places\",font_size=12,font=\"Calibri\",bold=True,align=\"left\"\
     ),row=\"header\", col_xs=10, width_xs=1)\n    header_holder.add_component(Label(text=\"\
-    More info\",font_size=12,font=\"Calibri\",bold=True,align=\"left\"),row=\"header\"\
-    , col_xs=11, width_xs=1)      \n    \n    # Make reset button \n    reset_button\
-    \ = Button(text=\"Reset...\",font_size=10,font=\"Calibri\",background=\"#F6F9FC\"\
-    ,align=\"center\")\n    reset_button.set_event_handler(\"click\", self.table_reset_click)\n\
-    \    filter_holder.add_component(reset_button,row=\"filters\", col_xs=0, width_xs=1)\n\
-    \    \n    # Make dropdown for project type\n    dd_projecttype = DropDown(items=self.filter_lists[2][:10],width=\"\
+    Apply (form opens in new window)\",font_size=12,font=\"Calibri\",bold=True,align=\"\
+    left\"),row=\"header\", col_xs=11, width_xs=1)      \n    \n    # Make dropdown\
+    \ for project type\n    dd_projecttype = DropDown(items=self.filter_lists[2][:10],width=\"\
     50px\",align=\"left\",font_size=10,font=\"Calibri\",background=\"#F6F9FC\",visible=True)\n\
     \    self.dd_list.append(dd_projecttype)\n    self.cols_with_dds.append(2)\n \
     \   dd_projecttype.set_event_handler(\"change\", self.table_update, 2) # TODO\
@@ -127,9 +124,13 @@ forms:
     \  self.dd_list.append(dd_specialty)\n    self.cols_with_dds.append(6)\n    dd_specialty.set_event_handler(\"\
     change\", self.table_update, 6) # TODO Do I need to pass in col_num argument?\
     \ Also this is hardcoded\n    filter_holder.add_component(dd_specialty,row=\"\
-    filters\", col_xs=4, width_xs=2)\n    \n#    Vestigial TODO: Investigate if I\
-    \ still need this\n#    header_holder.remove_from_parent()\n#    filter_holder.remove_from_parent()\n\
-    \n    # Add header row and filter row to gridpanel\n    self.column_panel_header.add_component(header_holder,row_spacing=0)\
+    filters\", col_xs=4, width_xs=2)\n    \n    # Make reset button \n    reset_button\
+    \ = Button(text=\"Reset filters...\",font_size=10,font=\"Calibri\",background=\"\
+    #F6F9FC\",align=\"right\")\n    reset_button.set_event_handler(\"click\", self.table_reset_click)\n\
+    \    filter_holder.add_component(reset_button,row=\"filters\", col_xs=10, width_xs=2)\n\
+    \    \n#    Vestigial TODO: Investigate if I still need this\n#    header_holder.remove_from_parent()\n\
+    #    filter_holder.remove_from_parent()\n\n    # Add header row and filter row\
+    \ to gridpanel\n    self.column_panel_header.add_component(header_holder,row_spacing=0)\
     \    \n    self.column_panel_header.add_component(filter_holder,row_spacing=0)\
     \ \n\n    \n    # Finally create the table\n    self.table_update()"
   class_name: Form1
@@ -186,7 +187,7 @@ forms:
         width_xs: 12, col_xs: 0, width: 1098}
       components: []
 $promise: {}
-name: NSAMR -- View research project database
+name: NSAMR -- Research -- View research project database
 startup_form: Form1
 renamed: true
 services:
