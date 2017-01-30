@@ -34,21 +34,21 @@ server_modules:
     \  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n  in_why=row_list[19]\n\
     \  google.mail.send(to = in_email,\n                   bcc = [\"chair@nsamr.ac.uk\"\
     ,\n                          \"research@nsamr.ac.uk\",\n                     \
-    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] TESTING --\
-    \ PLEASE IGNORE Research project application: please confirm your email address\"\
-    ,\n                   text =\n    \"\"\"\n    Dear \"\"\"+in_firstname+\"\"\"\
-    \ \"\"\"+in_surname+\"\"\",\n  \n    Thanks for your interest in applying for\
-    \ one of the research projects offered by the National Student Association for\
-    \ Medical Research. For your reference, please find a copy of the information\
-    \ you have provided us below.\n    \n    Please reply to this email so we know\
-    \ that \"\"\"+in_email+\"\"\" points to a real person. (You don't have to write\
-    \ anything in your reply, but we like it when people say hello. We also like funny\
-    \ cat pictures.)\n    \n    We'll contact you again when have heard from the relevant\
-    \ project supervisor.\n    \n    If you have any questions at all, or want to\
-    \ change the the information you gave us, please don't hesitate to get in touch.\n\
-    \  \n    NSAMR love,\n    \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n\
-    \    Research team: research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n\
-    \    \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
+    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] Research project\
+    \ application: please confirm your email address\",\n                   text =\n\
+    \    \"\"\"\n    Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\"\",\n \
+    \ \n    Thanks for your interest in applying for one of the research projects\
+    \ offered by the National Student Association for Medical Research. For your reference,\
+    \ please find a copy of the information you have provided us below.\n    \n  \
+    \  Please reply to this email so we know that \"\"\"+in_email+\"\"\" points to\
+    \ a real person. (You don't have to write anything in your reply, but we like\
+    \ it when people say hello. We also like funny cat pictures.)\n    \n    We'll\
+    \ contact you again when have heard from the relevant project supervisor.\n  \
+    \  \n    If you have any questions at all, or want to change the the information\
+    \ you gave us, please don't hesitate to get in touch.\n  \n    NSAMR love,\n \
+    \   \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n    Research team:\
+    \ research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n \
+    \   \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
     \ so we can investigate.\n    \n    \n    ------------------------------------\n\
     \    Submission date and time: \"\"\"+in_timestamp+\"\"\"\n    Name: \"\"\"+in_firstname+\"\
     \"\" \"\"\"+in_surname+\"\"\"\n    Email address: \"\"\"+in_email+\"\"\"\n   \
@@ -303,6 +303,10 @@ forms:
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: true,
       text: 'Please fill in the form below to apply for one of our research opportunities.
+
+
+        You are able to send us your CV to support your application if you would like
+        to -- please see below for details.
 
 
         Note that your answers will not be saved until you click "Submit" at the bottom
