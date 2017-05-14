@@ -1,53 +1,102 @@
-server_modules:
-- {name: Utils, code: "import google.auth, google.drive, google.mail\nfrom google.drive\
-    \ import app_files\nimport anvil.server\n\nimport datetime\n  \n@anvil.server.callable\n\
-    def get_timestamp ():\n  timestamp = datetime.datetime.now()\n  return timestamp\n\
-    \n@anvil.server.callable\ndef put_in_spreadsheet (row_list): \n  in_timestamp=row_list[0]\n\
-    \  in_idtoken=row_list[1]\n  in_firstname=row_list[2]\n  in_surname=row_list[3]\n\
-    \  in_email=row_list[4]\n  in_university=row_list[5]\n  in_courseyear=row_list[6]\n\
-    \  in_courselength=row_list[7]\n  in_projectnumber=row_list[8]\n  in_projecttitle=row_list[9]\n\
-    \  in_statement=row_list[10]\n  \n  # Get the spreadsheet\n  google.sheets.add_missing_fields\
-    \ = True\n  db = google.drive.app_files.applications\n  ws = db.worksheets[0]\n\
-    \  \n  # Write to the spreadsheet\n  row = ws.add_row(timestamp=in_timestamp,\n\
-    \                   idtoken=in_idtoken,\n                   firstname=in_firstname,\n\
-    \                   surname=in_surname,\n                   emailaddress=in_email,\n\
-    \                   university=in_university,\n                   courseyear=in_courseyear,\n\
-    \                   courselength=in_courselength,\n                   projectnumber=in_projectnumber,\n\
-    \                   projecttitle=in_projecttitle,\n                   statement=in_statement)\n\
-    \  return\n\n@anvil.server.callable\ndef send_confirmation_email (in_name,in_surname,in_email):\n\
-    \  google.mail.send(to = in_email,\n                   bcc = [\"chair@nsamr.ac.uk\"\
-    ,\n                          \"research@nsamr.ac.uk\",\n                     \
-    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] TESTING --\
-    \ PLEASE IGNORE Research project application: please confirm your email address\"\
-    ,\n                   text =\n    \"\"\"\n    Dear \"\"\"+in_name+\"\"\" \"\"\"\
-    +in_surname+\"\"\",\n  \n    Thanks for your interest in applying for one of the\
-    \ research projects offered by the National Student Association for Medical Research.\n\
-    \    \n    Please reply to this email so we know that \"\"\"+in_email+\"\"\" points\
-    \ to a real person. (You don't have to write anything in your reply, but we like\
-    \ it when people say hello. We also like funny cat pictures.)\n    \n    We'll\
-    \ contact you again when have heard from the relevant project supervisor.\n  \
-    \  \n    If you have any questions at all, or want to change the the information\
-    \ you gave us, please don't hesitate to get in touch.\n  \n    NSAMR love,\n \
-    \   \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n    Research team:\
-    \ research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n \
-    \   \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
-    \ so we can investigate...\n    \"\"\",\n                  html = \n    \"\"\"\
-    \n    <p>Dear \"\"\"+in_name+\"\"\" \"\"\"+in_surname+\"\"\",</p>\n  \n    <p>Thanks\
-    \ for your interest in applying for one of the research projects offered by the\
-    \ National Student Association for Medical Research.</p>\n    \n    <p>Please\
-    \ reply to this email so we know \"\"\"+in_email+\"\"\" points to a real person.\
-    \ (You don't have to write anything in your reply, but we like it when people\
-    \ say hello. We also like funny cat pictures.)</p>\n    \n    <p>We'll contact\
-    \ you again when we have heard from the relevant project supervisor.</p>\n   \
-    \ \n    <p>If you have any questions at all, or want to change the the information\
-    \ you gave us, please don't hesitate to get in touch.</p>\n  \n    <p>NSAMR love,</p>\n\
-    \    \n    <p>Robert Lundin, Chair: chair@nsamr.ac.uk</p>\n    <p>and</p>\n  \
-    \  <p>Research team: research@nsamr.ac.uk</p>\n    <p><a href=\"www.nsamr.ac.uk\"\
-    >www.nsamr.ac.uk</a>, <a href=\"https://twitter.com/nsamr\">@NSAMR</a></p>\n \
-    \   <br>\n    <br>\n    <p>Don't recognise this email? Please forward it to <a\
-    \ href=\"it@nsamr.ac.uk\">it@nsamr.ac.uk</a> so we can investigate...</p>\n  \
-    \  \"\"\")"}
 modules: []
+exported_table_schema: []
+services:
+- source: /runtime/services/google.yml
+  client_config:
+    app_files:
+    - editable: true
+      copyable: true
+      embedLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/htmlembed
+      python_name: applications
+      explicitlyTrashed: false
+      lastModifyingUser:
+        kind: drive#user
+        displayName: Helen Jackson
+        picture: {url: 'https://lh4.googleusercontent.com/-9pCNXVTvSFs/AAAAAAAAAAI/AAAAAAAAAAA/QIZGAu9NFgM/s64/photo.jpg'}
+        isAuthenticatedUser: false
+        permissionId: 09022922714034085283
+        emailAddress: jacksonh@nsamr.ac.uk
+      shared: true
+      createdDate: '2017-01-29T13:57:46.271Z'
+      id: 1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
+      owners:
+      - {kind: drive#user, displayName: Helen Jackson, isAuthenticatedUser: false,
+        permissionId: '12006330058224577531', emailAddress: helenj@ckson.io}
+      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
+      spaces: [drive]
+      parents:
+      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        isRoot: false}
+      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
+      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_spreadsheet_list.png
+      selfLink: https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
+      lastViewedByMeDate: '2017-01-30T11:57:44.531Z'
+      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/Cg6YprTE1HypXPzrum1e2pjBdbM"',
+        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/permissions/me',
+        role: writer, type: user}
+      lastModifyingUserName: Helen Jackson
+      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3NzU3OTgzMQ"'
+      kind: drive#file
+      modifiedByMeDate: '2017-01-30T11:57:44.531Z'
+      title: research-INCOMING-project-applications
+      version: '10573'
+      appDataContents: false
+      writersCanShare: true
+      alternateLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/edit?usp=drivesdk
+      mimeType: application/vnd.google-apps.spreadsheet
+      modifiedDate: '2017-01-30T11:59:39.831Z'
+      quotaBytesUsed: '0'
+      exportLinks: {x-vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods',
+        tab-separated-values: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=tsv',
+        pdf: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=pdf',
+        vnd.openxmlformats-officedocument.spreadsheetml.sheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=xlsx',
+        csv: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=csv',
+        zip: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=zip',
+        vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods'}
+      thumbnailLink: https://docs.google.com/feeds/vt?gd=true&id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&v=38&s=AMedNnoAAAAAWI9OoNE645JyLRXTVsBWIUtWbXfsiqwL&sz=s220
+      ownerNames: [Helen Jackson]
+    - editable: true
+      copyable: false
+      embedLink: https://drive.google.com/embeddedfolderview?id=0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      python_name: test_uploads
+      explicitlyTrashed: false
+      lastModifyingUser: {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true,
+        permissionId: '18085892464376200296', emailAddress: nsamr.web@gmail.com}
+      shared: true
+      createdDate: '2017-01-30T12:34:10.503Z'
+      id: 0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      owners:
+      - {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true, permissionId: '18085892464376200296',
+        emailAddress: nsamr.web@gmail.com}
+      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
+      spaces: [drive]
+      parents:
+      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        isRoot: false}
+      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
+      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_shared_collection_list_1.png
+      selfLink: https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      lastViewedByMeDate: '2017-01-30T12:34:10.503Z'
+      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/sWrZkA0yUeDETOQgJDM98HzLcfw"',
+        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/permissions/me',
+        role: owner, type: user}
+      lastModifyingUserName: NSAMR Web
+      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3OTY1MDUwMw"'
+      kind: drive#file
+      modifiedByMeDate: '2017-01-30T12:34:10.503Z'
+      title: test-uploads
+      version: '15235'
+      appDataContents: false
+      writersCanShare: true
+      alternateLink: https://drive.google.com/drive/folders/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      mimeType: application/vnd.google-apps.folder
+      modifiedDate: '2017-01-30T12:34:10.503Z'
+      quotaBytesUsed: '0'
+      webViewLink: https://644a037991b3a975626958cd4701b640f180eca6.googledrive.com/host/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/
+      ownerNames: [NSAMR Web]
+  server_config: {}
 forms:
 - code: "from anvil import *\nimport google.auth, google.drive, google.mail\nfrom\
     \ google.drive import app_files\nimport anvil.server\n\nclass ProjectApplicationForm\
@@ -66,110 +115,132 @@ forms:
     \      self.btn_submitPart3.enabled = True\n    else:\n      self.btn_submitPart3.enabled\
     \ = False  \n  pass\n\n  def tb_email_change (self, **event_args):\n    # TODO:\
     \ this is totally horrible  \n    if self.tb_email.text != \"\":\n      self.label_email_error.visible\
-    \ = False\n      if self.get_emaildomain(self.dd_university.selected_value) ==\
-    \ \"not selected\":\n        self.label_university_error.visible = True\n    \
-    \    self.btn_submitPart1.enabled = False\n        self.cb_confirmemail.enabled\
-    \ = False\n      else:\n        self.label_university_error.visible = False\n\
-    \        self.cb_confirmemail.enabled = True\n    else:\n      self.btn_submitPart1.enabled\
-    \ = False\n      self.cb_confirmemail.checked = False\n      self.cb_confirmemail.enabled\
-    \ = False\n      self.label_email_error.enabled = True\n      self.label_email_error.text\
-    \ = \"Please enter your email address\"\n    pass\n\n  def dd_university_change\
-    \ (self, **event_args):\n    # Reset the confirm email box\n    self.cb_confirmemail.enabled\
-    \ = False\n    self.cb_confirmemail.checked = False\n    \n    # Show email message\n\
-    \    self.label_email_error.text = \"(We'll send you a confirmation email here)\"\
-    \n\n    # Show the end of part 1 of the form if approriate\n    if self.get_emaildomain(self.dd_university.selected_value)\
-    \ == \"not selected\":\n      self.btn_submitPart1.enabled = False\n      self.cb_confirmemail.enabled\
-    \ = False\n      self.label_university_error.visible = True\n    else:\n     \
-    \ self.label_university_error.visible = False\n      if self.tb_email.text !=\
-    \ \"\":\n        self.label_email_error.visible = False\n        self.cb_confirmemail.enabled\
-    \ = True\n    pass\n    self.show_part1()\n    \n  def cb_confirmemail_change\
-    \ (self, **event_args):\n    if self.cb_confirmemail.checked == True:\n      self.btn_submitPart1.enabled\
-    \ = True\n    pass\n  \n  def show_part1 (self):\n    # Show email address boxes\
-    \ and next button\n    self.label_email.visible = True\n    self.label_email_error.visible\
-    \ = True\n    self.label_email_error.text = \"(We'll send you a confirmation email\
-    \ here)\"\n    self.tb_email.visible = True\n    self.tb_email.text = \"\"\n \
-    \   self.label_at.visible = True\n    self.label_emaildomain.text = self.get_emaildomain(self.dd_university.selected_value)\n\
-    \    self.label_emaildomain.visible = True\n    self.cb_confirmemail.visible =\
-    \ True\n    self.btn_submitPart1.visible = True  \n    pass\n \n  def get_emaildomain\
-    \ (self, argument):\n    # Map med schools to domains\n    switcher = {\n    \
-    \  \"Aberdeen\" :\t\"aberdeen.ac.uk\",\n      \"Barts\" :\t\"qmul.ac.uk\",\n \
-    \     \"Birmingham\" :\t\"student.bham.ac.uk\",\n      \"Brighton and Sussex\"\
-    \ :\t\"bsms.ac.uk\",\n      \"Bristol\" :\t\"my.bristol.ac.uk\",\n      \"Cambridge\"\
-    \ :\t\"cam.ac.uk\",\n      \"Cardiff\" :\t\"cardiff.ac.uk\",\n      \"Exeter\"\
-    \ :\t\"exeter.ac.uk\",\n      \"Dundee\" :\t\"dundee.ac.uk\",\n      \"Durham\"\
-    \ :\t\"durham.ac.uk\",\n      \"Edinburgh\" :\t\"sms.ed.ac.uk\",\n      \"Glasgow\"\
-    \ :\t\"student.gla.ac.uk\",\n      \"Hull York\" :\t\"hyms.ac.uk\",\n      \"\
-    Imperial\" :\t\"imperial.ac.uk\",\n      \"Keele\" :\t\"keele.ac.uk\",\n     \
-    \ \"King's\" :\t\"kcl.ac.uk\",\n      \"Lancaster\" :\t\"lancaster.ac.uk\",\n\
-    \      \"Leeds\" :\t\"leeds.ac.uk\",\n      \"Leicester\" :\t\"student.le.ac.uk\"\
-    ,\n      \"Liverpool\" :\t\"liv.ac.uk\",\n      \"Manchester\" :\t\"student.manchester.ac.uk\"\
-    ,\n      \"Newcastle\" :\t\"ncl.ac.uk\",\n      \"Norwich\" :\t\"uea.ac.uk\",\n\
-    \      \"Nottingham\" :\t\"nottingham.ac.uk\",\n      \"Oxford\" :\t\"medschool.ox.ac.uk\"\
-    ,\n      \"Plymouth\" :\t\"students.pcmd.ac.uk\",\n      \"Queen's\" :\t\"qub.ac.uk\"\
+    \ = False\n      if self.get_medSchool(self.dd_medSchool.selected_value) == \"\
+    not selected\":\n        self.label_university_error.visible = True\n        self.btn_submitPart1.enabled\
+    \ = False\n        self.cb_confirmemail.enabled = False\n      else:\n       \
+    \ self.label_university_error.visible = False\n        self.cb_confirmemail.enabled\
+    \ = True\n    else:\n      self.btn_submitPart1.enabled = False\n      self.cb_confirmemail.checked\
+    \ = False\n      self.cb_confirmemail.enabled = False\n      self.label_email_error.enabled\
+    \ = True\n      self.label_email_error.text = \"Please enter your email address\"\
+    \n    pass\n\n  def dd_medSchool_change (self, **event_args):\n    # Reset the\
+    \ confirm email box\n    self.cb_confirmemail.enabled = False\n    self.cb_confirmemail.checked\
+    \ = False\n    \n    # Show email message\n    self.label_email_error.text = \"\
+    (We'll send you a confirmation email here)\"\n\n    # Show the end of part 1 of\
+    \ the form if approriate\n    self.label_university_error.visible = False\n  \
+    \  if self.tb_email.text != \"\":\n      self.label_email_error.visible = False\n\
+    \      self.cb_confirmemail.enabled = True\n    pass\n    self.show_part1()\n\
+    \    \n  def cb_confirmemail_change (self, **event_args):\n    if self.cb_confirmemail.checked\
+    \ == True:\n      self.btn_submitPart1.enabled = True\n    pass\n  \n  def show_part1\
+    \ (self):\n    # Show email address boxes and next button\n    self.label_email.visible\
+    \ = True\n    self.label_email_error.visible = True\n    self.label_email_error.text\
+    \ = \"(We'll send you a confirmation email here)\"\n    self.tb_email.visible\
+    \ = True\n    self.tb_email.text = \"\"\n    self.cb_confirmemail.visible = True\n\
+    \    self.btn_submitPart1.visible = True  \n    pass\n \n  def get_medSchool (self,\
+    \ argument):\n    # Map med schools to domains\n    switcher = {\n      \"Aberdeen\"\
+    \ :\t\"aberdeen.ac.uk\",\n      \"Barts\" :\t\"qmul.ac.uk\",\n      \"Birmingham\"\
+    \ :\t\"student.bham.ac.uk\",\n      \"Brighton and Sussex\" :\t\"bsms.ac.uk\"\
+    ,\n      \"Bristol\" :\t\"my.bristol.ac.uk\",\n      \"Cambridge\" :\t\"cam.ac.uk\"\
+    ,\n      \"Cardiff\" :\t\"cardiff.ac.uk\",\n      \"Exeter\" :\t\"exeter.ac.uk\"\
+    ,\n      \"Dundee\" :\t\"dundee.ac.uk\",\n      \"Durham\" :\t\"durham.ac.uk\"\
+    ,\n      \"Edinburgh\" :\t\"sms.ed.ac.uk\",\n      \"Glasgow\" :\t\"student.gla.ac.uk\"\
+    ,\n      \"Hull York\" :\t\"hyms.ac.uk\",\n      \"Imperial\" :\t\"imperial.ac.uk\"\
+    ,\n      \"Keele\" :\t\"keele.ac.uk\",\n      \"King's\" :\t\"kcl.ac.uk\",\n \
+    \     \"Lancaster\" :\t\"lancaster.ac.uk\",\n      \"Leeds\" :\t\"leeds.ac.uk\"\
+    ,\n      \"Leicester\" :\t\"student.le.ac.uk\",\n      \"Liverpool\" :\t\"liv.ac.uk\"\
+    ,\n      \"Manchester\" :\t\"student.manchester.ac.uk\",\n      \"Newcastle\"\
+    \ :\t\"ncl.ac.uk\",\n      \"Norwich\" :\t\"uea.ac.uk\",\n      \"Nottingham\"\
+    \ :\t\"nottingham.ac.uk\",\n      \"Oxford\" :\t\"medschool.ox.ac.uk\",\n    \
+    \  \"Plymouth\" :\t\"students.pcmd.ac.uk\",\n      \"Queen's\" :\t\"qub.ac.uk\"\
     ,\n      \"Sheffield\" :\t\"sheffield.ac.uk\",\n      \"Southampton\" :\t\"soton.ac.uk\"\
     ,\n      \"St Andrews\" :\t\"st-andrews.ac.uk\",\n      \"St George's\"\t:\t\"\
     sgul.ac.uk\",\n      \"Swansea\" :\t\"swansea.ac.uk\",\n      \"UCL\" :\t\"ucl.ac.uk\"\
     ,\n      \"Warwick\" :\t\"warwick.ac.uk\"\n    }\n    return switcher.get(argument,\
     \ \"not selected\")\n  \n  def btn_submitPart1_click (self, **event_args):\n \
     \   # Read the data we want\n    self.firstname = self.tb_fn.text.strip()\n  \
-    \  self.surname = self.tb_sn.text.strip()\n    self.university = self.dd_university.selected_value\n\
-    \    self.email = (self.tb_email.text.strip())+\"@\"+(self.label_emaildomain.text)\n\
-    \    \n    # Disable components in part 1\n    self.tb_fn.enabled = False\n  \
-    \  self.tb_sn.enabled = False\n    self.dd_university.enabled = False\n    self.tb_email.enabled\
-    \ = False\n    self.btn_submitPart1.enabled = False\n    \n    #Show part 2 of\
+    \  self.surname = self.tb_sn.text.strip()\n    self.university = self.dd_medSchool.selected_value\n\
+    \    self.email = (self.tb_email.text.strip())+\".ac.uk\"\n    self.contactnumber\
+    \ = self.tb_contactnumber.text.strip()\n    \n    # Disable components in part\
+    \ 1\n    self.tb_fn.enabled = False\n    self.tb_sn.enabled = False\n    self.dd_medSchool.enabled\
+    \ = False\n    self.tb_email.enabled = False\n    self.btn_submitPart1.enabled\
+    \ = False\n    self.tb_contactnumber.enabled = False\n    \n    #Show part 2 of\
     \ the form\n    self.show_part2()\n    pass\n  \n  def show_part2 (self):\n  \
-    \  # Hide leftovers\n    self.label_university_error.visible = False\n    self.label_email_error.visible\
-    \ = False    \n    self.dd_university.enabled = False\n\n    self.label_course1.visible\
-    \ = True\n    self.dd_courseYear.visible = True\n    self.label_course2.visible\
-    \ = True\n    self.dd_courseDur.visible = True\n    self.label_course3.visible\
-    \ = True\n    self.label_year_clarificaton.visible = True\n    self.btn_submitPart2.visible\
-    \ = True\n    pass\n\n  def btn_submitPart2_click (self, **event_args):\n    #\
-    \ Read the data we want\n    self.courseyear = self.dd_courseYear.selected_value\n\
+    \  # Hide leftover\n    self.label_university_error.visible = False\n    self.label_email_error.visible\
+    \ = False    \n    self.dd_medSchool.enabled = False\n    self.tb_contactnumber.enabled\
+    \ = False\n\n    # Show next block\n    self.label_heading_course.visible = True\n\
+    \    self.label_course1.visible = True\n    self.dd_courseYear.visible = True\n\
+    \    self.label_course2.visible = True\n    self.dd_courseDur.visible = True\n\
+    \    self.label_course3.visible = True\n    self.label_year_clarificaton.visible\
+    \ = True\n    self.btn_submitPart2.visible = True\n    pass\n\n  def btn_submitPart2_click\
+    \ (self, **event_args):\n    # Read the data we want\n    self.courseyear = self.dd_courseYear.selected_value\n\
     \    self.courselength = self.dd_courseDur.selected_value\n    \n    # Disable\
     \ components in part 2\n    self.dd_courseYear.enabled = False\n    self.dd_courseDur.enabled\
     \ = False\n    self.btn_submitPart2.enabled = False    \n    \n    # Show part\
     \ 3 of the form\n    self.show_part3()\n    pass\n    \n  def show_part3 (self):\n\
-    \    self.label_pn.visible = True\n    self.label_pt.visible = True\n    self.tb_pn.visible\
-    \ = True\n    self.tb_pn.enabled = True\n    self.tb_pt.visible = True\n    self.tb_pt.enabled\
-    \ = True    \n\n    self.label_statement.visible = True\n    self.label_statement2.visible\
-    \ = True\n    self.ta_statement.visible = True\n    \n    self.label_generateidtoken.visible\
-    \ = True\n    self.btn_generateidtoken.visible = True\n    self.btn_generateidtoken.enabled\
-    \ = True\n    self.label_tokenexplanation.visible = True\n    \n    self.cb_checkinfo.visible\
-    \ = True\n    self.cb_confmail.visible = True\n    self.cb_conftoken.visible =\
-    \ True\n    \n    self.btn_submitPart3.visible = True\n    \n    self.proceed_info\
-    \ = False\n    self.proceed_mail = False\n    self.proceed_token = False\n   \
-    \ pass\n\n  def btn_generateidtoken_click (self, **event_args):\n    # Generate\
-    \ timestamp\n    self.timestamp = \"%s\" % (anvil.server.call(\"get_timestamp\"\
-    ))\n    \n    token = self.timestamp.replace(\" \",\"\")\n    token = token.replace(\"\
-    :\",\"\")\n    token = token.replace(\".\",\"\")\n    token = token.replace(\"\
-    -\",\"\")\n    token = token.replace(\"+\",\"\")\n\n    self.idtoken = \"%s\"\
-    \ % (token)\n    self.label_idtoken.text = self.idtoken\n    self.label_idtoken.visible\
+    \    # Headers\n    self.label_heading_project.visible = True\n    self.label_heading_furtherinfo.visible\
+    \ = True\n    self.label_heading_finish.visible = True\n\n    # Project selection\
+    \    \n    self.label_projectnumber_1.visible = True\n    self.label_projectnumber_2.visible\
+    \ = True\n    self.label_projectnumber_3.visible = True\n    self.tb_projectnumber_1.visible\
+    \ = True\n    self.tb_projectnumber_1.enabled = True  \n    self.tb_projectnumber_2.visible\
+    \ = True\n    self.tb_projectnumber_2.enabled = True \n    self.tb_projectnumber_3.visible\
+    \ = True\n    self.tb_projectnumber_3.enabled = True \n    \n    # Whitespace\
+    \ answers\n    self.label_workexperience.visible = True\n    self.ta_workexperience.visible\
+    \ = True\n    self.ta_workexperience.enabled = True\n    \n    self.label_education.visible\
+    \ = True\n    self.ta_education.visible = True\n    self.ta_education.enabled\
+    \ = True    \n    \n    self.label_teaching.visible = True\n    self.ta_teaching.visible\
+    \ = True\n    self.ta_teaching.enabled = True\n    \n    self.label_leadership.visible\
+    \ = True\n    self.ta_leadership.visible = True\n    self.ta_leadership.enabled\
+    \ = True\n    \n    self.label_publications.visible = True\n    self.ta_publications.visible\
+    \ = True\n    self.ta_publications.enabled = True\n    \n    self.label_hoursperweek.visible\
+    \ = True\n    self.ta_hoursperweek.visible = True\n    self.ta_hoursperweek.enabled\
+    \ = True\n    \n    self.label_impact.visible = True\n    self.ta_impact.visible\
+    \ = True\n    self.ta_impact.enabled = True\n    \n    self.label_why.visible\
+    \ = True\n    self.ta_why.visible = True\n    self.ta_why.enabled = True\n   \
+    \ \n    # ID token\n    self.label_generateidtoken.visible = True\n    self.btn_generateidtoken.visible\
+    \ = True\n    self.btn_generateidtoken.enabled = True\n    self.label_tokenexplanation.visible\
+    \ = True\n    \n    # Confirmation\n    self.cb_checkinfo.visible = True\n   \
+    \ self.cb_confmail.visible = True\n    self.cb_conftoken.visible = True\n    \n\
+    \    # Submission\n    self.btn_submitPart3.visible = True\n    \n    # Checks\n\
+    \    self.proceed_info = False\n    self.proceed_mail = False\n    self.proceed_token\
+    \ = False\n    pass\n\n  def btn_generateidtoken_click (self, **event_args):\n\
+    \    # Generate timestamp\n    self.timestamp = \"%s\" % (anvil.server.call(\"\
+    get_timestamp\"))\n\n    # Form token\n    token = self.timestamp\n    token =\
+    \ self.timestamp.replace(\" \",\"\")\n    token = token.replace(\":\",\"\")\n\
+    \    token = token.replace(\".\",\"\")\n    token = token.replace(\"-\",\"\")\n\
+    \    token = token.replace(\"+\",\"\")\n    self.idtoken = \"%s\" % token.rstrip(\"\
+    0\")\n    self.label_idtoken.text = self.idtoken\n    self.label_idtoken.visible\
     \ = True                                       \n    pass\n\n\n  def btn_submitPart3_click\
-    \ (self, **event_args):    \n    # Read in the data we want\n    self.projectnumber\
-    \ = self.tb_pn.text\n    self.projecttitle = self.tb_pt.text\n    self.statement\
-    \ = self.ta_statement.text\n    \n    # Get timestamp if haven't already\n   \
-    \ if self.timestamp == \"\":\n      self.timestamp = \"%s\" % (anvil.server.call(\"\
-    get_timestamp\"))\n    \n    # Disable components in part 2, and leftovers\n \
-    \   self.ta_statement.enabled = False\n    self.btn_generateidtoken.enabled =\
-    \ False\n\n    # Show thanks text\n    self.label_thanks.text = \"Thank you for\
-    \ your application. We've just sent you an email to confirm your address. (Please\
-    \ don't close this window until the blue spinny thing has disappeared).\"\n  \
-    \  self.label_thanks.visible = True\n    \n    # Write to app table\n    row_list\
+    \ (self, **event_args):    \n    # Read in the data we want\n    self.projectnumber_1\
+    \ = self.tb_projectnumber_1.text\n    self.projectnumber_2 = self.tb_projectnumber_2.text\n\
+    \    self.projectnumber_3 = self.tb_projectnumber_3.text\n    self.workexperience\
+    \ = self.ta_workexperience.text\n    self.education = self.ta_education.text\n\
+    \    self.teaching = self.ta_teaching.text\n    self.leadership = self.ta_leadership.text\n\
+    \    self.publications = self.ta_publications.text\n    self.hoursperweek = self.ta_hoursperweek.text\n\
+    \    self.impact = self.ta_impact.text\n    self.why = self.ta_why.text\n    \n\
+    \    # Get timestamp if haven't already\n    if self.timestamp == \"\":\n    \
+    \  self.timestamp = \"%s\" % (anvil.server.call(\"get_timestamp\"))\n    \n  \
+    \  # Disable components in part 2, and leftovers\n    self.btn_generateidtoken.enabled\
+    \ = False\n\n    # Show thanks text\n    self.label_thanks.text = \"Thank you\
+    \ for your application. We've just sent you an email to confirm your address.\
+    \ (Please don't close this window until the blue spinny thing has disappeared).\"\
+    \n    self.label_thanks.visible = True\n    \n    # Write to app table\n    row_list\
     \ = [self.timestamp,\n                self.idtoken,\n                self.firstname,\n\
     \                self.surname,\n                self.email,\n                self.university,\n\
-    \                self.courseyear,\n                self.courselength,\n      \
-    \          self.projectnumber,\n                self.projecttitle,\n         \
-    \       self.statement,\n                self.idtoken]\n    \n    # Write to file\
-    \ from server\n    anvil.server.call(\"put_in_spreadsheet\",row_list)\n    anvil.server.call(\"\
-    send_confirmation_email\",self.firstname,self.surname,self.email)\n    \n    \n\
-    \  # Housekeeping  \n  def dd_courseYear_change (self, **event_args):\n    self.year_set\
-    \ = self.checkYear(self.dd_courseYear.selected_value)\n    if self.year_set ==\
-    \ \"1\" or \"2\" or \"3\" or \"4\" or \"5\" or \"6\":\n      self.courseYear_set\
-    \ = True\n    if self.year_set == \"not set\":\n      self.courseYear_set = False\n\
-    \    self.checkCourse()\n    pass\n  \n  def dd_courseDur_change (self, **event_args):\n\
-    \    self.dur_set = self.checkYear(self.dd_courseDur.selected_value)\n    if self.dur_set\
-    \ == \"4\" or \"5\" or \"6\":\n      self.courseDur_set = True\n    if self.dur_set\
-    \ == \"not_set\":\n      self.courseDur_set = False\n    self.checkCourse()\n\
+    \                self.contactnumber,\n                self.courseyear,\n     \
+    \           self.courselength,\n                self.projectnumber_1,\n      \
+    \          self.projectnumber_2,\n                self.projectnumber_3,\n    \
+    \            self.workexperience,\n                self.education,\n         \
+    \       self.teaching,\n                self.leadership,\n                self.publications,\n\
+    \                self.hoursperweek,\n                self.impact,\n          \
+    \      self.why\n               ]\n    \n    # Write to file via server\n    anvil.server.call(\"\
+    put_in_spreadsheet\",row_list)\n    anvil.server.call(\"send_confirmation_email\"\
+    ,row_list)\n    \n    \n  # Housekeeping  \n  def dd_courseYear_change (self,\
+    \ **event_args):\n    self.year_set = self.checkYear(self.dd_courseYear.selected_value)\n\
+    \    if self.year_set == \"1\" or \"2\" or \"3\" or \"4\" or \"5\" or \"6\":\n\
+    \      self.courseYear_set = True\n    if self.year_set == \"not set\":\n    \
+    \  self.courseYear_set = False\n    self.checkCourse()\n    pass\n  \n  def dd_courseDur_change\
+    \ (self, **event_args):\n    self.dur_set = self.checkYear(self.dd_courseDur.selected_value)\n\
+    \    if self.dur_set == \"4\" or \"5\" or \"6\":\n      self.courseDur_set = True\n\
+    \    if self.dur_set == \"not_set\":\n      self.courseDur_set = False\n    self.checkCourse()\n\
     \    pass  \n  \n  def checkYear (self,argument):\n    switcher = {\n      \"\
     1\": 1,\n      \"2\": 2,\n      \"3\": 3,\n      \"4\": 4,\n      \"5\": 5,\n\
     \      \"6\": 6,\n    }\n    return switcher.get(argument, \"not set\")\n  \n\
@@ -185,13 +256,27 @@ forms:
     \ = False\n    self.year_set = \"not set\"\n    self.dur_set = \"not set\"\n \
     \   \n    # Initialise data we want at the end\n    self.timestamp = \"\"\n  \
     \  self.idtoken = \"\"\n    self.firstname = \"\"\n    self.surname = \"\"\n \
-    \   self.email = \"\"\n    self.university = \"\"\n    self.course_year = \"\"\
-    \n    self.courselength = \"\"\n    self.projectnumber = \"\"\n    self.projecttitle\
-    \ = \"\"\n    self.statement = \"\""
+    \   self.email = \"\"\n    self.university = \"\"\n    self.contactnumber = \"\
+    \"\n    self.course_year = \"\"\n    self.courselength = \"\"\n    self.projectnumber_1\
+    \ = \"\"\n    self.projectnumber_2 = \"\"\n    self.projectnumber_3 = \"\"\n \
+    \   self.workexperience = \"\"\n    self.education = \"\"\n    self.teaching =\
+    \ \"\"\n    self.leadership = \"\"\n    self.publications = \"\"\n    self.hoursperweek\
+    \ = \"\"\n    self.impact = \"\"\n    self.why = \"\"\n    "
   class_name: ProjectApplicationForm
   container:
     type: ColumnPanel
-    properties: {col_widths: '{"TERGEG":4,"FUWNSS":8,"ZLUEMO":4,"KBWJIR":8,"HVEYMT":5,"JBFDAU":2,"LPLNOB":5,"GVSNGX":5,"OUMSGK":2,"XYBAAG":5,"WABABQ":4,"JAYXGG":3,"RSONGV":1,"FFUYHK":4,"LSXYRD":7,"HRHCSQ":5,"EQUSDS":5,"FNSDHJ":7,"ZFHZEZ":5,"GBADMZ":3,"YUYOFV":4,"JSYMFJ":4,"BJUTNM":8,"WHVCDE":8,"INQWDB":4,"SDIVTA":4,"ARHWGH":3,"QFVGYI":1,"FBZVYC":4,"IQIBCD":1,"IFMJPS":11,"BBNVCD":1,"AAWTAT":11,"EHGADI":1,"MXKWUP":11,"IRVWEW":1,"OUVPRI":11,"HTMEMF":2,"LOHYNK":3,"UWMYAN":4,"VAOYCV":3,"INVHKV":5,"CNXKJQ":2,"IJJMCW":5}'}
+    properties:
+      width: default
+      border: ''
+      foreground: ''
+      repeat_component: ''
+      visible: true
+      row_spacing: 10
+      spacing_above: large
+      col_widths: '{"TERGEG":4,"FUWNSS":8,"ZLUEMO":4,"KBWJIR":8,"HVEYMT":5,"JBFDAU":1,"LPLNOB":6,"GVSNGX":5,"OUMSGK":1,"XYBAAG":6,"WABABQ":4,"JAYXGG":3,"RSONGV":1,"FFUYHK":4,"LSXYRD":4,"HRHCSQ":8,"ZFHZEZ":5,"GBADMZ":2,"YUYOFV":5,"JSYMFJ":4,"BJUTNM":8,"WHVCDE":4,"INQWDB":8,"BBNVCD":1,"AAWTAT":11,"EHGADI":1,"MXKWUP":11,"HTMEMF":1,"LOHYNK":5,"UWMYAN":3,"VAOYCV":3,"INVHKV":4,"CNXKJQ":4,"IJJMCW":4,"FHDAVK":5,"DVTJWZ":2,"RMMFRC":5,"IQIBCD":1,"QFILKQ":11,"EBQFGG":5,"XVPLLY":2,"JQBQOR":5,"CXCZJK":4,"XJKOAE":8}'
+      spacing_below: small
+      data: {}
+      background: ''
   components:
   - type: Image
     properties: {width: default, align: center, height: 200, border: '', foreground: '',
@@ -201,15 +286,35 @@ forms:
     layout_properties: {grid_position: 'AVODKH,VCLKVV'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: true,
-      text: Please fill in the form below to apply for one of our research opportunities.,
-      font_size: 18, font: Calibri, spacing_above: medium, icon_align: left, spacing_below: medium,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
+      text: 'Please fill in the form below to apply for one of our research opportunities.
+
+
+        You are able to send us your CV to support your application if you would like
+        to -- please see below for details.
+
+
+        Note that your answers will not be saved until you click "Submit" at the bottom
+        of this form, so you may wish to formulate your answers elsewhere and then
+        copy and paste them as appropriate.
+
+
+        Answers marked * are required.', font_size: 18, font: Calibri, spacing_above: medium,
+      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_title
     layout_properties: {grid_position: 'BCFGHC,FAGTQO'}
   - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: true,
+      text: 'About you:', font_size: 24, font: calibri, spacing_above: medium, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: label_heading_about
+    layout_properties: {grid_position: 'GVOQFE,KRHDUD'}
+  - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: true,
-      text: 'First name:', font_size: 18, font: Calibri, spacing_above: small, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false}
+      text: 'First name *:', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_fn
     layout_properties: {grid_position: 'SHLBLI,TERGEG'}
   - type: TextBox
@@ -221,8 +326,9 @@ forms:
     layout_properties: {grid_position: 'SHLBLI,FUWNSS'}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: true,
-      text: 'Surname:', font_size: 18, font: Calibri, spacing_above: small, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false}
+      text: 'Surname *:', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_sn
     layout_properties: {grid_position: 'KNCWNB,ZLUEMO'}
   - type: TextBox
@@ -234,8 +340,23 @@ forms:
     layout_properties: {grid_position: 'KNCWNB,KBWJIR'}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: true,
-      text: 'Medical school:', font_size: 18, font: Calibri, spacing_above: small,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      text: 'Contact number *:', font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_contactnumber
+    layout_properties: {grid_position: 'VGSIJY,CXCZJK'}
+  - type: TextBox
+    properties: {width: default, align: left, hide_text: false, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: true, text: '+44', font_size: 18, font: Calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: tb_contactnumber
+    layout_properties: {grid_position: 'VGSIJY,XJKOAE'}
+  - type: Label
+    properties: {width: default, align: right, border: '', foreground: '', visible: true,
+      text: 'Medical school *:', font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_ea
     layout_properties: {grid_position: 'ASVQKV,JSYMFJ'}
   - type: DropDown
@@ -261,13 +382,14 @@ forms:
       background: ''
       bold: false
       underline: false
-    name: dd_university
+    name: dd_medSchool
     layout_properties: {grid_position: 'ASVQKV,BJUTNM'}
-    event_bindings: {change: dd_university_change}
+    event_bindings: {change: dd_medSchool_change}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
-      text: 'Email address:', font_size: 18, font: Calibri, spacing_above: small,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false}
+      text: 'Email address *:', font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_email
     layout_properties: {grid_position: 'SIYWIU,SDIVTA'}
   - type: TextBox
@@ -279,29 +401,24 @@ forms:
     layout_properties: {grid_position: 'SIYWIU,ARHWGH'}
     event_bindings: {change: tb_email_change}
   - type: Label
-    properties: {width: default, align: center, border: '', foreground: '', visible: false,
-      text: ' @ ', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
+    properties: {width: default, align: left, border: '', foreground: '', visible: true,
+      text: .ac.uk, font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
       spacing_below: none, italic: false, background: '', bold: false, underline: false,
       icon: ''}
-    name: label_at
-    layout_properties: {grid_position: 'SIYWIU,QFVGYI'}
-  - type: Label
-    properties: {width: default, align: left, border: '', foreground: '', visible: true,
-      text: '', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: label_emaildomain
+    name: label_acuk
     layout_properties: {grid_position: 'SIYWIU,FBZVYC'}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
-      text: '', font_size: 11, font: Calibri, spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, underline: false}
+      text: '', font_size: 12, font: Calibri, spacing_above: none, icon_align: left,
+      spacing_below: none, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_email_exp
     layout_properties: {grid_position: 'CUKHLK,WABABQ'}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
-      text: '', font_size: 11, font: Calibri, spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, underline: false}
+      text: '', font_size: 12, font: Calibri, spacing_above: none, icon_align: left,
+      spacing_below: none, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_email_error
     layout_properties: {grid_position: 'CUKHLK,JAYXGG'}
   - type: Spacer
@@ -310,8 +427,9 @@ forms:
     layout_properties: {grid_position: 'CUKHLK,RSONGV'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: Please select your medical school, font_size: 11, font: Calibri, spacing_above: none,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false}
+      text: Please select your medical school, font_size: 12, font: Calibri, spacing_above: none,
+      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_university_error
     layout_properties: {grid_position: 'CUKHLK,FFUYHK'}
   - type: Spacer
@@ -321,7 +439,7 @@ forms:
   - type: CheckBox
     properties: {width: default, align: left, border: '', enabled: false, foreground: '',
       visible: false, text: I understand that NSAMR will send an email to this address for confirmation,
-      font_size: 11, font: Calibri, spacing_above: small, spacing_below: small, italic: false,
+      font_size: 12, font: Calibri, spacing_above: none, spacing_below: small, italic: false,
       background: '', bold: false, checked: false, underline: false}
     name: cb_confirmemail
     layout_properties: {grid_position: 'CYJSGQ,INQWDB'}
@@ -333,7 +451,7 @@ forms:
   - type: Button
     properties: {width: default, align: center, border: '', enabled: false, foreground: '',
       visible: false, text: Next, font_size: 18, font: Calibri, spacing_above: none,
-      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:arrow-circle-down'}
     name: btn_submitPart1
     layout_properties: {grid_position: 'LHUFNA,EFCXVW'}
@@ -346,9 +464,17 @@ forms:
     name: btn_changePart1
     layout_properties: {grid_position: 'LHUFNA,IWUEOG'}
   - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Your course:', font_size: 24, font: calibri, spacing_above: medium, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: label_heading_course
+    layout_properties: {grid_position: 'YCMRYF,KEXVSY'}
+  - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
-      text: I am in (or about to enter) year, font_size: 18, font: Calibri, spacing_above: small,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      text: I am in (or about to enter) year *, font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_course1
     layout_properties: {grid_position: 'JGKYJM,HVEYMT'}
   - type: DropDown
@@ -379,8 +505,9 @@ forms:
     layout_properties: {grid_position: 'JGKYJM,LPLNOB', data_binding: ''}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
-      text: and my course lasts, font_size: 18, font: Calibri, spacing_above: none,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false}
+      text: and my course lasts *, font_size: 18, font: Calibri, spacing_above: none,
+      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
     name: label_course2
     layout_properties: {grid_position: 'FPWKOC,GVSNGX'}
   - type: DropDown
@@ -417,9 +544,9 @@ forms:
     layout_properties: {grid_position: 'XJGVSQ,LSXYRD'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: (ignoring retaken years but including intercalated years), font_size: 11,
-      font: Calibri, spacing_above: none, spacing_below: medium, italic: false, background: '',
-      bold: false, underline: false}
+      text: (ignoring retaken years but including intercalated years), font_size: 12,
+      font: Calibri, spacing_above: none, icon_align: left, spacing_below: medium,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_year_clarificaton
     layout_properties: {grid_position: 'XJGVSQ,HRHCSQ'}
   - type: Spacer
@@ -428,15 +555,15 @@ forms:
     layout_properties: {grid_position: 'LFHSGY,YBSGKD'}
   - type: Button
     properties: {width: default, align: center, border: '', enabled: false, foreground: '',
-      visible: false, text: Next, font_size: 18, font: Calibri, spacing_above: small,
-      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      visible: false, text: Next, font_size: 18, font: Calibri, spacing_above: none,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:arrow-circle-down'}
     name: btn_submitPart2
     layout_properties: {grid_position: 'LFHSGY,FPXAEX'}
     event_bindings: {click: btn_submitPart2_click}
   - type: Button
     properties: {width: default, align: right, border: '', enabled: true, foreground: '',
-      visible: false, text: Go back, font_size: 18, font: Calibri, spacing_above: small,
+      visible: false, text: Go back, font_size: 18, font: Calibri, spacing_above: none,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:angle-double-up'}
     name: btn_changePart2
@@ -444,18 +571,25 @@ forms:
     event_bindings: {click: btn_changePart2_click}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: 'Number of the project you would like to apply for:', font_size: 18, font: Calibri,
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: label_pn
+      text: 'Project selection:', font_size: 24, font: calibri, spacing_above: medium,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_heading_project
+    layout_properties: {grid_position: 'LIBJIZ,JXGKLI'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'First choice project (number) *:', font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_projectnumber_1
     layout_properties: {grid_position: 'AHWGOU,ZFHZEZ'}
     event_bindings: {hide: label_pn_hide}
   - type: TextBox
     properties: {width: default, align: left, hide_text: false, placeholder: '', border: '',
-      enabled: false, foreground: '', visible: false, text: '', font_size: null, font: '',
+      enabled: false, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
       spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
       underline: false}
-    name: tb_pn
+    name: tb_projectnumber_1
     layout_properties: {grid_position: 'AHWGOU,GBADMZ'}
   - type: Spacer
     properties: {height: 32}
@@ -463,52 +597,168 @@ forms:
     layout_properties: {grid_position: 'AHWGOU,YUYOFV'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: 'Title of the project you would like to apply for:', font_size: 18, font: Calibri,
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: label_pt
-    layout_properties: {grid_position: 'WPZLOF,EQUSDS'}
+      text: 'Second choice project (number):', font_size: 18, font: calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_projectnumber_2
+    layout_properties: {grid_position: 'VBBHLQ,EBQFGG'}
   - type: TextBox
     properties: {width: default, align: left, hide_text: false, placeholder: '', border: '',
-      enabled: false, foreground: '', visible: false, text: '', font_size: null, font: '',
+      enabled: false, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
       spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
       underline: false}
-    name: tb_pt
-    layout_properties: {grid_position: 'WPZLOF,FNSDHJ'}
+    name: tb_projectnumber_2
+    layout_properties: {grid_position: 'VBBHLQ,XVPLLY'}
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_7
+    layout_properties: {grid_position: 'VBBHLQ,JQBQOR'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Third choice project (number):', font_size: 18, font: Calibri, spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_projectnumber_3
+    layout_properties: {grid_position: 'OBDVGA,FHDAVK'}
+  - type: TextBox
+    properties: {width: default, align: left, hide_text: false, placeholder: '', border: '',
+      enabled: false, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: tb_projectnumber_3
+    layout_properties: {grid_position: 'OBDVGA,DVTJWZ'}
   - type: Spacer
     properties: {height: 32}
     name: spacer_9
-    layout_properties: {grid_position: 'UXQNVD,TOBIRA'}
+    layout_properties: {grid_position: 'OBDVGA,RMMFRC'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: Briefly describe your interest in this project (approx. 200 words) *,
-      font_size: 18, font: Calibri, spacing_above: small, icon_align: left, spacing_below: none,
+      text: Please tell us about your work/volunteer experience (max 200 words), font_size: 18,
+      font: Calibri, spacing_above: large, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_statement
+    name: label_workexperience
     layout_properties: {grid_position: 'SGMKUR,TEDEMV'}
-  - type: Spacer
-    properties: {height: 32}
-    name: spacer_15
-    layout_properties: {grid_position: 'BHHXCO,IRVWEW'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 203, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_workexperience
+    layout_properties: {grid_position: 'DFAQWP,PSJOBJ'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: '* You can also send us your CV -- please see below', font_size: 11, font: Calibri,
-      spacing_above: none, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    name: label_statement2
-    layout_properties: {grid_position: 'BHHXCO,OUVPRI'}
+      text: 'Please tell us about any educational achievements, prizes and awards
+        (max 100 words) ', font_size: 18, font: calibri, spacing_above: large, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_education
+    layout_properties: {grid_position: 'AEOQYT,VRLWMM'}
   - type: TextArea
-    properties: {width: default, align: left, height: 246, placeholder: I am interested in...,
-      border: '', enabled: true, foreground: '', visible: false, text: '', font_size: 18,
-      font: Calibri, spacing_above: small, spacing_below: medium, italic: false, background: '',
-      bold: false, underline: false}
-    name: ta_statement
-    layout_properties: {grid_position: 'AAMRKG,LAKEOU'}
+    properties: {width: default, align: left, height: 128, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_education
+    layout_properties: {grid_position: 'ZIYNAQ,XBGECS'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Please tell us about any of your teaching experiences (max 100 words) ',
+      font_size: 18, font: calibri, spacing_above: large, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_teaching
+    layout_properties: {grid_position: 'YRBWAY,HBTJRK'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 126, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_teaching
+    layout_properties: {grid_position: 'FELYAX,QORSFN'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Please tell us about your leadership/managerial experiences and other
+        non academic/extracurricular achievements (max 100 words) ', font_size: 18,
+      font: calibri, spacing_above: large, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_leadership
+    layout_properties: {grid_position: 'HTVBTA,VOZNZK'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 129, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_leadership
+    layout_properties: {grid_position: 'DKGLTR,FASUNQ'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Please tell us about any publications, oral or poster presentations. ',
+      font_size: 18, font: calibri, spacing_above: large, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_publications
+    layout_properties: {grid_position: 'RUDPDR,DMRLPA'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 127, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_publications
+    layout_properties: {grid_position: 'GTBRHR,HJNANE'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'How many hours per week can you dedicate to a NSAMR research project? ',
+      font_size: 18, font: calibri, spacing_above: large, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_hoursperweek
+    layout_properties: {grid_position: 'LHXDHD,NXTAHS'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 65, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_hoursperweek
+    layout_properties: {grid_position: 'SZIMJL,FLAXPW'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Please explain the impact of your academic/non-academic work during medical
+        school towards your future career (max 200 words) ', font_size: 18, font: calibri,
+      spacing_above: large, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_impact
+    layout_properties: {grid_position: 'EFAFSE,QRXUKD'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 222, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_impact
+    layout_properties: {grid_position: 'HNGWZS,VEUFEJ'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Why would you like to get involved with an NSAMR research project (max
+        200 words) ', font_size: 18, font: calibri, spacing_above: large, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_why
+    layout_properties: {grid_position: 'NATMIN,FSUTJW'}
+  - type: TextArea
+    properties: {width: default, align: left, height: 223, placeholder: '', border: '',
+      enabled: true, foreground: '', visible: false, text: '', font_size: 18, font: calibri,
+      spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false}
+    name: ta_why
+    layout_properties: {grid_position: 'BODQZE,RPMJGD'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Supporting information:', font_size: 24, font: Calibri, spacing_above: large,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_heading_furtherinfo
+    layout_properties: {grid_position: 'EPSWLU,FSQTZH'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
       text: 'If you would like to send us your CV to support your application, please
         click below to generate a unique ID token:', font_size: 18, font: Calibri,
-      spacing_above: medium, icon_align: left, spacing_below: medium, italic: false,
+      spacing_above: small, icon_align: left, spacing_below: medium, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: label_generateidtoken
     layout_properties: {grid_position: 'NNGVQJ,JBZISA', row_background: ''}
@@ -543,17 +793,24 @@ forms:
         file format is fine.
 
 
-        If you have any questions or problems with this, please email it@nsamr.ac.uk',
-      font_size: 18, font: Calibri, spacing_above: medium, icon_align: left, spacing_below: medium,
+        (If you have any questions or problems with this, please email it@nsamr.ac.uk)',
+      font_size: 18, font: Calibri, spacing_above: medium, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_tokenexplanation
     layout_properties: {grid_position: 'AKKVLG,YTUAMR'}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: 'Please check your information carefully, tick the checkboxes to confirm
-        the statements, then click "Submit" to complete your application. ', font_size: 18,
-      font: Calibri, spacing_above: large, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
+      text: Finish, font_size: 24, font: Calibri, spacing_above: large, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      icon: ''}
+    name: label_heading_finish
+    layout_properties: {grid_position: 'RDVJGR,CWMIMZ'}
+  - type: Label
+    properties: {width: default, align: left, border: '', foreground: '', visible: false,
+      text: 'Please confirm the statements below, then click "Submit" to complete
+        your application. ', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_check
     layout_properties: {grid_position: 'XRJJPT,CWMVGV'}
   - type: Spacer
@@ -562,11 +819,11 @@ forms:
     layout_properties: {grid_position: 'FCNKCP,IQIBCD'}
   - type: CheckBox
     properties: {width: default, align: left, border: '', enabled: true, foreground: '',
-      visible: false, text: I have checked my information, font_size: 18, font: Calibri,
+      visible: false, text: I have checked my information *, font_size: 18, font: Calibri,
       spacing_above: small, spacing_below: small, italic: false, background: '', bold: false,
       checked: false, underline: false}
     name: cb_checkinfo
-    layout_properties: {grid_position: 'FCNKCP,IFMJPS'}
+    layout_properties: {grid_position: 'FCNKCP,QFILKQ'}
     event_bindings: {change: cb_checkinfo_change}
   - type: Spacer
     properties: {height: 32}
@@ -574,7 +831,7 @@ forms:
     layout_properties: {grid_position: 'HYLMTW,BBNVCD'}
   - type: CheckBox
     properties: {width: default, align: left, border: '', enabled: true, foreground: '',
-      visible: false, text: I understand that I must confirm my email address in order for my application to be considered,
+      visible: false, text: I understand that I must confirm my email address in order for my application to be considered *,
       font_size: 18, font: Calibri, spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, checked: false, underline: false}
     name: cb_confmail
@@ -588,9 +845,9 @@ forms:
     properties: {width: default, align: left, border: '', enabled: true, foreground: '',
       visible: false, text: 'I understand that NSAMR will not open email attachments
         from me in relation to this application unless they are labelled with my unique
-        ID token, and that I must also include my token in the email''s subject line',
-      font_size: 18, font: Calibri, spacing_above: small, spacing_below: medium, italic: false,
-      background: '', bold: false, checked: false, underline: false}
+        ID token, and that I must also include my token in the email''s subject line
+        *', font_size: 18, font: Calibri, spacing_above: small, spacing_below: medium,
+      italic: false, background: '', bold: false, checked: false, underline: false}
     name: cb_conftoken
     layout_properties: {grid_position: 'XLXDDG,MXKWUP'}
     event_bindings: {change: cb_conftoken_change}
@@ -609,67 +866,122 @@ forms:
     event_bindings: {click: btn_submitPart3_click}
   - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: false,
-      text: '', font_size: 11, font: Calibri, spacing_above: small, icon_align: left,
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      text: '', font_size: 12, font: Calibri, spacing_above: none, icon_align: left,
+      spacing_below: medium, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: label_thanks
     layout_properties: {grid_position: 'PTXPQT,IJJMCW', row_background: ''}
-$promise: {}
 name: NSAMR -- Research -- Project application form
+runtime_options: {}
 startup_form: ProjectApplicationForm
+$promise: {}
+server_modules:
+- {name: Utils, code: "import google.auth, google.drive, google.mail\nfrom google.drive\
+    \ import app_files\nimport anvil.server\n\nimport datetime\n  \n@anvil.server.callable\n\
+    def get_timestamp ():\n  timestamp = datetime.datetime.now()\n  return timestamp\n\
+    \n@anvil.server.callable\ndef put_in_spreadsheet (row_list): \n  in_timestamp=row_list[0]\n\
+    \  in_idtoken=row_list[1]\n  in_firstname=row_list[2]\n  in_surname=row_list[3]\n\
+    \  in_email=row_list[4]\n  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n\
+    \  in_courseyear=row_list[7]\n  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n\
+    \  in_projectnumber_2=row_list[10]\n  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n\
+    \  in_education=row_list[13]\n  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n\
+    \  in_publications=row_list[16]\n  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n\
+    \  in_why=row_list[19]\n  \n  # Get the spreadsheet\n  google.sheets.add_missing_fields\
+    \ = True\n  db = google.drive.app_files.applications\n  ws = db.worksheets[0]\n\
+    \  \n  # Make timestamp prettier\n  in_timestamp = \"%s\" % in_timestamp.replace(\"\
+    +00:00\",\"\")\n  \n  # Write to the spreadsheet\n  row = ws.add_row(timestamp\
+    \ = in_timestamp,\n                   idtoken = in_idtoken,\n                \
+    \   firstname = in_firstname,\n                   surname = in_surname,\n    \
+    \               emailaddress = in_email,\n                   university = in_university,\n\
+    \                   contactnumber = in_contactnumber,\n                   courseyear\
+    \ = in_courseyear,\n                   courselength = in_courselength,\n     \
+    \              projectnumber_1 = in_projectnumber_1,\n                   projectnumber_2\
+    \ = in_projectnumber_2,\n                   projectnumber_3 = in_projectnumber_3,\n\
+    \                   workexperience = in_workexperience,\n                   education\
+    \ = in_education,\n                   teaching = in_teaching,\n              \
+    \     leadership = in_leadership,\n                   publications = in_publications,\n\
+    \                   hoursperweek = in_hoursperweek,\n                   impact\
+    \ = in_impact,\n                   why = in_why)\n  return\n\n@anvil.server.callable\n\
+    def send_confirmation_email (row_list):\n  in_timestamp=row_list[0]\n  in_idtoken=row_list[1]\n\
+    \  in_firstname=row_list[2]\n  in_surname=row_list[3]\n  in_email=row_list[4]\n\
+    \  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n  in_courseyear=row_list[7]\n\
+    \  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n  in_projectnumber_2=row_list[10]\n\
+    \  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n  in_education=row_list[13]\n\
+    \  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n  in_publications=row_list[16]\n\
+    \  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n  in_why=row_list[19]\n\
+    \  google.mail.send(to = in_email,\n                   bcc = [\"chair@nsamr.ac.uk\"\
+    ,\n                          \"research@nsamr.ac.uk\",\n                     \
+    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] Research project\
+    \ application: please confirm your email address\",\n                   text =\n\
+    \    \"\"\"\n    Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\"\",\n \
+    \ \n    Thanks for your interest in applying for one of the research projects\
+    \ offered by the National Student Association for Medical Research. For your reference,\
+    \ please find a copy of the information you have provided us below.\n    \n  \
+    \  Please reply to this email so we know that \"\"\"+in_email+\"\"\" points to\
+    \ a real person. (You don't have to write anything in your reply, but we like\
+    \ it when people say hello. We also like funny cat pictures.)\n    \n    We'll\
+    \ contact you again when have heard from the relevant project supervisor.\n  \
+    \  \n    If you have any questions at all, or want to change the the information\
+    \ you gave us, please don't hesitate to get in touch.\n  \n    NSAMR love,\n \
+    \   \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n    Research team:\
+    \ research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n \
+    \   \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
+    \ so we can investigate.\n    \n    \n    ------------------------------------\n\
+    \    Submission date and time: \"\"\"+in_timestamp+\"\"\"\n    Name: \"\"\"+in_firstname+\"\
+    \"\" \"\"\"+in_surname+\"\"\"\n    Email address: \"\"\"+in_email+\"\"\"\n   \
+    \ Contact number: \"\"\"+in_contactnumber+\"\"\"\n    Course year \"\"\"+in_courseyear+\"\
+    \"\" of \"\"\"+in_courselength+\"\"\"\n    \n    First choice project: \"\"\"\
+    +in_projectnumber_1+\"\"\"\n    Second choice project: \"\"\"+in_projectnumber_2+\"\
+    \"\"\n    Third choice project: \"\"\"+in_projectnumber_3+\"\"\"\n    \n    Please\
+    \ tell us about your work/volunteer experience (max 200 words)\n    \"\"\"+in_workexperience+\"\
+    \"\"\n    \n    Please tell us about any educational achievements, prizes and\
+    \ awards (max 100 words) \n    \"\"\"+in_education+\"\"\"\n    \n    Please tell\
+    \ us about any of your teaching experiences (max 100 words) \n    \"\"\"+in_teaching+\"\
+    \"\"\n        \n    Please tell us about your leadership/managerial experiences\
+    \ and other non academic/extracurricular achievements (max 100 words) \n    \"\
+    \"\"+in_leadership+\"\"\"\n    \n    Please tell us about any publications, oral\
+    \ or poster presentations. \n    \"\"\"+in_publications+\"\"\"\n    \n    How\
+    \ many hours per week can you dedicate to a NSAMR research project? \n    \"\"\
+    \"+in_hoursperweek+\"\"\"\n    \n    Please explain the impact of your academic/non-academic\
+    \ work during medical school towards your future career (max 200 words) \n   \
+    \ \"\"\"+in_impact+\"\"\"\n    \n    Why would you like to get involved with an\
+    \ NSAMR research project (max 200 words) \n    \"\"\"+in_why+\"\"\"\n    \n  \
+    \  ID token\n    \"\"\"+in_idtoken+\"\"\"    \n    \n    \"\"\",\n           \
+    \       html = \n    \"\"\"\n    <p>Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\
+    \"\",</p>\n  \n    <p>Thanks for your interest in applying for one of the research\
+    \ projects offered by the National Student Association for Medical Research.</p>\n\
+    \    \n    <p>Please reply to this email so we know \"\"\"+in_email+\"\"\" points\
+    \ to a real person. (You don't have to write anything in your reply, but we like\
+    \ it when people say hello. We also like funny cat pictures.)</p>\n    \n    <p>We'll\
+    \ contact you again when we have heard from the relevant project supervisor.</p>\n\
+    \    \n    <p>If you have any questions at all, or want to change the the information\
+    \ you gave us, please don't hesitate to get in touch.</p>\n  \n    <p>NSAMR love,</p>\n\
+    \    \n    <p>Robert Lundin, Chair: chair@nsamr.ac.uk</p>\n    <p>and</p>\n  \
+    \  <p>Research team: research@nsamr.ac.uk</p>\n    <p><a href=\"www.nsamr.ac.uk\"\
+    >www.nsamr.ac.uk</a>, <a href=\"https://twitter.com/nsamr\">@NSAMR</a></p>\n \
+    \   <br>\n    <br>\n    <p>Don't recognise this email? Please forward it to <a\
+    \ href=\"it@nsamr.ac.uk\">it@nsamr.ac.uk</a> so we can investigate...</p>\n  \
+    \  <br>    \n    <br>    \n    <p>------------------------------------</p>\n \
+    \   Submission date and time: \"\"\"+in_timestamp+\"\"\"<br>\n    Name: \"\"\"\
+    +in_firstname+\"\"\" \"\"\"+in_surname+\"\"\"<br>\n    Email address: \"\"\"+in_email+\"\
+    \"\"<br>\n    Contact number: \"\"\"+in_contactnumber+\"\"\"<br>\n    Course year\
+    \ \"\"\"+in_courseyear+\"\"\" of \"\"\"+in_courselength+\"\"\"<br>\n    <br>\n\
+    \    First choice project: \"\"\"+in_projectnumber_1+\"\"\"<br>\n    Second choice\
+    \ project: \"\"\"+in_projectnumber_2+\"\"\"<br>\n    Third choice project: \"\"\
+    \"+in_projectnumber_3+\"\"\"<br>\n    <br>\n    Please tell us about your work/volunteer\
+    \ experience (max 200 words)<br>\n    \"\"\"+in_workexperience+\"\"\"<br>\n  \
+    \  <br>\n    Please tell us about any educational achievements, prizes and awards\
+    \ (max 100 words) <br>\n    \"\"\"+in_education+\"\"\"<br>\n    <br>\n    Please\
+    \ tell us about any of your teaching experiences (max 100 words) <br>\n    \"\"\
+    \"+in_teaching+\"\"\"<br>\n    <br>\n    Please tell us about your leadership/managerial\
+    \ experiences and other non academic/extracurricular achievements (max 100 words)\
+    \ <br>\n    \"\"\"+in_leadership+\"\"\"<br>\n    <br>\n    Please tell us about\
+    \ any publications, oral or poster presentations <br>\n    \"\"\"+in_publications+\"\
+    \"\"<br>\n    <br>\n    \n    How many hours per week can you dedicate to a NSAMR\
+    \ research project? <br>\n    \"\"\"+in_hoursperweek+\"\"\"<br>\n    <br>\n  \
+    \  Please explain the impact of your academic/non-academic work during medical\
+    \ school towards your future career (max 200 words) <br>\n    \"\"\"+in_impact+\"\
+    \"\"<br>\n    <br>\n    Why would you like to get involved with an NSAMR research\
+    \ project (max 200 words) <br>\n    \"\"\"+in_why+\"\"\"<br>\n    <br>\n    <br>\n\
+    \    ID token: \"\"\"+in_idtoken+\"\"\" <br>\n    \"\"\")"}
 renamed: true
-services:
-- source: /runtime/services/google.yml
-  client_config:
-    app_files:
-    - editable: true
-      copyable: true
-      embedLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/htmlembed
-      python_name: applications
-      explicitlyTrashed: false
-      lastModifyingUser:
-        kind: drive#user
-        displayName: Helen Jackson
-        picture: {url: 'https://lh4.googleusercontent.com/-9pCNXVTvSFs/AAAAAAAAAAI/AAAAAAAAAAA/QIZGAu9NFgM/s64/photo.jpg'}
-        isAuthenticatedUser: false
-        permissionId: 09022922714034085283
-        emailAddress: jacksonh@nsamr.ac.uk
-      shared: true
-      createdDate: '2017-01-29T13:57:46.271Z'
-      id: 1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
-      owners:
-      - {kind: drive#user, displayName: Helen Jackson, isAuthenticatedUser: false,
-        permissionId: '12006330058224577531', emailAddress: helenj@ckson.io}
-      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
-      spaces: [drive]
-      parents:
-      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        isRoot: false}
-      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: false}
-      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_spreadsheet_list.png
-      selfLink: https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
-      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/Cg6YprTE1HypXPzrum1e2pjBdbM"',
-        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/permissions/me',
-        role: writer, type: user}
-      lastModifyingUserName: Helen Jackson
-      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTcwODIxMzU2OQ"'
-      kind: drive#file
-      title: research-INCOMING-project-applications
-      version: '10455'
-      appDataContents: false
-      writersCanShare: true
-      alternateLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/edit?usp=drivesdk
-      mimeType: application/vnd.google-apps.spreadsheet
-      modifiedDate: '2017-01-29T16:43:33.569Z'
-      quotaBytesUsed: '0'
-      exportLinks: {x-vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods',
-        tab-separated-values: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=tsv',
-        pdf: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=pdf',
-        vnd.openxmlformats-officedocument.spreadsheetml.sheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=xlsx',
-        csv: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=csv',
-        zip: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=zip',
-        vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods'}
-      thumbnailLink: https://docs.google.com/feeds/vt?gd=true&id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&v=11&s=AMedNnoAAAAAWI44TGGcgzl8voEcYgcfsLqhXYRCTs8f&sz=s220
-      ownerNames: [Helen Jackson]
-  server_config: {}
