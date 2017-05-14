@@ -1,113 +1,102 @@
-server_modules:
-- {name: Utils, code: "import google.auth, google.drive, google.mail\nfrom google.drive\
-    \ import app_files\nimport anvil.server\n\nimport datetime\n  \n@anvil.server.callable\n\
-    def get_timestamp ():\n  timestamp = datetime.datetime.now()\n  return timestamp\n\
-    \n@anvil.server.callable\ndef put_in_spreadsheet (row_list): \n  in_timestamp=row_list[0]\n\
-    \  in_idtoken=row_list[1]\n  in_firstname=row_list[2]\n  in_surname=row_list[3]\n\
-    \  in_email=row_list[4]\n  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n\
-    \  in_courseyear=row_list[7]\n  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n\
-    \  in_projectnumber_2=row_list[10]\n  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n\
-    \  in_education=row_list[13]\n  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n\
-    \  in_publications=row_list[16]\n  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n\
-    \  in_why=row_list[19]\n  \n  # Get the spreadsheet\n  google.sheets.add_missing_fields\
-    \ = True\n  db = google.drive.app_files.applications\n  ws = db.worksheets[0]\n\
-    \  \n  # Make timestamp prettier\n  in_timestamp = \"%s\" % in_timestamp.replace(\"\
-    +00:00\",\"\")\n  \n  # Write to the spreadsheet\n  row = ws.add_row(timestamp\
-    \ = in_timestamp,\n                   idtoken = in_idtoken,\n                \
-    \   firstname = in_firstname,\n                   surname = in_surname,\n    \
-    \               emailaddress = in_email,\n                   university = in_university,\n\
-    \                   contactnumber = in_contactnumber,\n                   courseyear\
-    \ = in_courseyear,\n                   courselength = in_courselength,\n     \
-    \              projectnumber_1 = in_projectnumber_1,\n                   projectnumber_2\
-    \ = in_projectnumber_2,\n                   projectnumber_3 = in_projectnumber_3,\n\
-    \                   workexperience = in_workexperience,\n                   education\
-    \ = in_education,\n                   teaching = in_teaching,\n              \
-    \     leadership = in_leadership,\n                   publications = in_publications,\n\
-    \                   hoursperweek = in_hoursperweek,\n                   impact\
-    \ = in_impact,\n                   why = in_why)\n  return\n\n@anvil.server.callable\n\
-    def send_confirmation_email (row_list):\n  in_timestamp=row_list[0]\n  in_idtoken=row_list[1]\n\
-    \  in_firstname=row_list[2]\n  in_surname=row_list[3]\n  in_email=row_list[4]\n\
-    \  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n  in_courseyear=row_list[7]\n\
-    \  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n  in_projectnumber_2=row_list[10]\n\
-    \  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n  in_education=row_list[13]\n\
-    \  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n  in_publications=row_list[16]\n\
-    \  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n  in_why=row_list[19]\n\
-    \  google.mail.send(to = in_email,\n                   bcc = [\"chair@nsamr.ac.uk\"\
-    ,\n                          \"research@nsamr.ac.uk\",\n                     \
-    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] Research project\
-    \ application: please confirm your email address\",\n                   text =\n\
-    \    \"\"\"\n    Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\"\",\n \
-    \ \n    Thanks for your interest in applying for one of the research projects\
-    \ offered by the National Student Association for Medical Research. For your reference,\
-    \ please find a copy of the information you have provided us below.\n    \n  \
-    \  Please reply to this email so we know that \"\"\"+in_email+\"\"\" points to\
-    \ a real person. (You don't have to write anything in your reply, but we like\
-    \ it when people say hello. We also like funny cat pictures.)\n    \n    We'll\
-    \ contact you again when have heard from the relevant project supervisor.\n  \
-    \  \n    If you have any questions at all, or want to change the the information\
-    \ you gave us, please don't hesitate to get in touch.\n  \n    NSAMR love,\n \
-    \   \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n    Research team:\
-    \ research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n \
-    \   \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
-    \ so we can investigate.\n    \n    \n    ------------------------------------\n\
-    \    Submission date and time: \"\"\"+in_timestamp+\"\"\"\n    Name: \"\"\"+in_firstname+\"\
-    \"\" \"\"\"+in_surname+\"\"\"\n    Email address: \"\"\"+in_email+\"\"\"\n   \
-    \ Contact number: \"\"\"+in_contactnumber+\"\"\"\n    Course year \"\"\"+in_courseyear+\"\
-    \"\" of \"\"\"+in_courselength+\"\"\"\n    \n    First choice project: \"\"\"\
-    +in_projectnumber_1+\"\"\"\n    Second choice project: \"\"\"+in_projectnumber_2+\"\
-    \"\"\n    Third choice project: \"\"\"+in_projectnumber_3+\"\"\"\n    \n    Please\
-    \ tell us about your work/volunteer experience (max 200 words)\n    \"\"\"+in_workexperience+\"\
-    \"\"\n    \n    Please tell us about any educational achievements, prizes and\
-    \ awards (max 100 words) \n    \"\"\"+in_education+\"\"\"\n    \n    Please tell\
-    \ us about any of your teaching experiences (max 100 words) \n    \"\"\"+in_teaching+\"\
-    \"\"\n        \n    Please tell us about your leadership/managerial experiences\
-    \ and other non academic/extracurricular achievements (max 100 words) \n    \"\
-    \"\"+in_leadership+\"\"\"\n    \n    Please tell us about any publications, oral\
-    \ or poster presentations. \n    \"\"\"+in_publications+\"\"\"\n    \n    How\
-    \ many hours per week can you dedicate to a NSAMR research project? \n    \"\"\
-    \"+in_hoursperweek+\"\"\"\n    \n    Please explain the impact of your academic/non-academic\
-    \ work during medical school towards your future career (max 200 words) \n   \
-    \ \"\"\"+in_impact+\"\"\"\n    \n    Why would you like to get involved with an\
-    \ NSAMR research project (max 200 words) \n    \"\"\"+in_why+\"\"\"\n    \n  \
-    \  ID token\n    \"\"\"+in_idtoken+\"\"\"    \n    \n    \"\"\",\n           \
-    \       html = \n    \"\"\"\n    <p>Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\
-    \"\",</p>\n  \n    <p>Thanks for your interest in applying for one of the research\
-    \ projects offered by the National Student Association for Medical Research.</p>\n\
-    \    \n    <p>Please reply to this email so we know \"\"\"+in_email+\"\"\" points\
-    \ to a real person. (You don't have to write anything in your reply, but we like\
-    \ it when people say hello. We also like funny cat pictures.)</p>\n    \n    <p>We'll\
-    \ contact you again when we have heard from the relevant project supervisor.</p>\n\
-    \    \n    <p>If you have any questions at all, or want to change the the information\
-    \ you gave us, please don't hesitate to get in touch.</p>\n  \n    <p>NSAMR love,</p>\n\
-    \    \n    <p>Robert Lundin, Chair: chair@nsamr.ac.uk</p>\n    <p>and</p>\n  \
-    \  <p>Research team: research@nsamr.ac.uk</p>\n    <p><a href=\"www.nsamr.ac.uk\"\
-    >www.nsamr.ac.uk</a>, <a href=\"https://twitter.com/nsamr\">@NSAMR</a></p>\n \
-    \   <br>\n    <br>\n    <p>Don't recognise this email? Please forward it to <a\
-    \ href=\"it@nsamr.ac.uk\">it@nsamr.ac.uk</a> so we can investigate...</p>\n  \
-    \  <br>    \n    <br>    \n    <p>------------------------------------</p>\n \
-    \   Submission date and time: \"\"\"+in_timestamp+\"\"\"<br>\n    Name: \"\"\"\
-    +in_firstname+\"\"\" \"\"\"+in_surname+\"\"\"<br>\n    Email address: \"\"\"+in_email+\"\
-    \"\"<br>\n    Contact number: \"\"\"+in_contactnumber+\"\"\"<br>\n    Course year\
-    \ \"\"\"+in_courseyear+\"\"\" of \"\"\"+in_courselength+\"\"\"<br>\n    <br>\n\
-    \    First choice project: \"\"\"+in_projectnumber_1+\"\"\"<br>\n    Second choice\
-    \ project: \"\"\"+in_projectnumber_2+\"\"\"<br>\n    Third choice project: \"\"\
-    \"+in_projectnumber_3+\"\"\"<br>\n    <br>\n    Please tell us about your work/volunteer\
-    \ experience (max 200 words)<br>\n    \"\"\"+in_workexperience+\"\"\"<br>\n  \
-    \  <br>\n    Please tell us about any educational achievements, prizes and awards\
-    \ (max 100 words) <br>\n    \"\"\"+in_education+\"\"\"<br>\n    <br>\n    Please\
-    \ tell us about any of your teaching experiences (max 100 words) <br>\n    \"\"\
-    \"+in_teaching+\"\"\"<br>\n    <br>\n    Please tell us about your leadership/managerial\
-    \ experiences and other non academic/extracurricular achievements (max 100 words)\
-    \ <br>\n    \"\"\"+in_leadership+\"\"\"<br>\n    <br>\n    Please tell us about\
-    \ any publications, oral or poster presentations <br>\n    \"\"\"+in_publications+\"\
-    \"\"<br>\n    <br>\n    \n    How many hours per week can you dedicate to a NSAMR\
-    \ research project? <br>\n    \"\"\"+in_hoursperweek+\"\"\"<br>\n    <br>\n  \
-    \  Please explain the impact of your academic/non-academic work during medical\
-    \ school towards your future career (max 200 words) <br>\n    \"\"\"+in_impact+\"\
-    \"\"<br>\n    <br>\n    Why would you like to get involved with an NSAMR research\
-    \ project (max 200 words) <br>\n    \"\"\"+in_why+\"\"\"<br>\n    <br>\n    <br>\n\
-    \    ID token: \"\"\"+in_idtoken+\"\"\" <br>\n    \"\"\")"}
 modules: []
+exported_table_schema: []
+services:
+- source: /runtime/services/google.yml
+  client_config:
+    app_files:
+    - editable: true
+      copyable: true
+      embedLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/htmlembed
+      python_name: applications
+      explicitlyTrashed: false
+      lastModifyingUser:
+        kind: drive#user
+        displayName: Helen Jackson
+        picture: {url: 'https://lh4.googleusercontent.com/-9pCNXVTvSFs/AAAAAAAAAAI/AAAAAAAAAAA/QIZGAu9NFgM/s64/photo.jpg'}
+        isAuthenticatedUser: false
+        permissionId: 09022922714034085283
+        emailAddress: jacksonh@nsamr.ac.uk
+      shared: true
+      createdDate: '2017-01-29T13:57:46.271Z'
+      id: 1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
+      owners:
+      - {kind: drive#user, displayName: Helen Jackson, isAuthenticatedUser: false,
+        permissionId: '12006330058224577531', emailAddress: helenj@ckson.io}
+      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
+      spaces: [drive]
+      parents:
+      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        isRoot: false}
+      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
+      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_spreadsheet_list.png
+      selfLink: https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
+      lastViewedByMeDate: '2017-01-30T11:57:44.531Z'
+      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/Cg6YprTE1HypXPzrum1e2pjBdbM"',
+        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/permissions/me',
+        role: writer, type: user}
+      lastModifyingUserName: Helen Jackson
+      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3NzU3OTgzMQ"'
+      kind: drive#file
+      modifiedByMeDate: '2017-01-30T11:57:44.531Z'
+      title: research-INCOMING-project-applications
+      version: '10573'
+      appDataContents: false
+      writersCanShare: true
+      alternateLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/edit?usp=drivesdk
+      mimeType: application/vnd.google-apps.spreadsheet
+      modifiedDate: '2017-01-30T11:59:39.831Z'
+      quotaBytesUsed: '0'
+      exportLinks: {x-vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods',
+        tab-separated-values: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=tsv',
+        pdf: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=pdf',
+        vnd.openxmlformats-officedocument.spreadsheetml.sheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=xlsx',
+        csv: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=csv',
+        zip: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=zip',
+        vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods'}
+      thumbnailLink: https://docs.google.com/feeds/vt?gd=true&id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&v=38&s=AMedNnoAAAAAWI9OoNE645JyLRXTVsBWIUtWbXfsiqwL&sz=s220
+      ownerNames: [Helen Jackson]
+    - editable: true
+      copyable: false
+      embedLink: https://drive.google.com/embeddedfolderview?id=0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      python_name: test_uploads
+      explicitlyTrashed: false
+      lastModifyingUser: {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true,
+        permissionId: '18085892464376200296', emailAddress: nsamr.web@gmail.com}
+      shared: true
+      createdDate: '2017-01-30T12:34:10.503Z'
+      id: 0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      owners:
+      - {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true, permissionId: '18085892464376200296',
+        emailAddress: nsamr.web@gmail.com}
+      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
+      spaces: [drive]
+      parents:
+      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
+        isRoot: false}
+      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
+      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_shared_collection_list_1.png
+      selfLink: https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      lastViewedByMeDate: '2017-01-30T12:34:10.503Z'
+      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/sWrZkA0yUeDETOQgJDM98HzLcfw"',
+        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/permissions/me',
+        role: owner, type: user}
+      lastModifyingUserName: NSAMR Web
+      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3OTY1MDUwMw"'
+      kind: drive#file
+      modifiedByMeDate: '2017-01-30T12:34:10.503Z'
+      title: test-uploads
+      version: '15235'
+      appDataContents: false
+      writersCanShare: true
+      alternateLink: https://drive.google.com/drive/folders/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
+      mimeType: application/vnd.google-apps.folder
+      modifiedDate: '2017-01-30T12:34:10.503Z'
+      quotaBytesUsed: '0'
+      webViewLink: https://644a037991b3a975626958cd4701b640f180eca6.googledrive.com/host/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/
+      ownerNames: [NSAMR Web]
+  server_config: {}
 forms:
 - code: "from anvil import *\nimport google.auth, google.drive, google.mail\nfrom\
     \ google.drive import app_files\nimport anvil.server\n\nclass ProjectApplicationForm\
@@ -126,68 +115,63 @@ forms:
     \      self.btn_submitPart3.enabled = True\n    else:\n      self.btn_submitPart3.enabled\
     \ = False  \n  pass\n\n  def tb_email_change (self, **event_args):\n    # TODO:\
     \ this is totally horrible  \n    if self.tb_email.text != \"\":\n      self.label_email_error.visible\
-    \ = False\n      if self.get_emaildomain(self.dd_university.selected_value) ==\
-    \ \"not selected\":\n        self.label_university_error.visible = True\n    \
-    \    self.btn_submitPart1.enabled = False\n        self.cb_confirmemail.enabled\
-    \ = False\n      else:\n        self.label_university_error.visible = False\n\
-    \        self.cb_confirmemail.enabled = True\n    else:\n      self.btn_submitPart1.enabled\
-    \ = False\n      self.cb_confirmemail.checked = False\n      self.cb_confirmemail.enabled\
-    \ = False\n      self.label_email_error.enabled = True\n      self.label_email_error.text\
-    \ = \"Please enter your email address\"\n    pass\n\n  def dd_university_change\
-    \ (self, **event_args):\n    # Reset the confirm email box\n    self.cb_confirmemail.enabled\
-    \ = False\n    self.cb_confirmemail.checked = False\n    \n    # Show email message\n\
-    \    self.label_email_error.text = \"(We'll send you a confirmation email here)\"\
-    \n\n    # Show the end of part 1 of the form if approriate\n    if self.get_emaildomain(self.dd_university.selected_value)\
-    \ == \"not selected\":\n      self.btn_submitPart1.enabled = False\n      self.cb_confirmemail.enabled\
-    \ = False\n      self.label_university_error.visible = True\n    else:\n     \
-    \ self.label_university_error.visible = False\n      if self.tb_email.text !=\
-    \ \"\":\n        self.label_email_error.visible = False\n        self.cb_confirmemail.enabled\
-    \ = True\n    pass\n    self.show_part1()\n    \n  def cb_confirmemail_change\
-    \ (self, **event_args):\n    if self.cb_confirmemail.checked == True:\n      self.btn_submitPart1.enabled\
-    \ = True\n    pass\n  \n  def show_part1 (self):\n    # Show email address boxes\
-    \ and next button\n    self.label_email.visible = True\n    self.label_email_error.visible\
-    \ = True\n    self.label_email_error.text = \"(We'll send you a confirmation email\
-    \ here)\"\n    self.tb_email.visible = True\n    self.tb_email.text = \"\"\n \
-    \   self.label_at.visible = True\n    self.label_emaildomain.text = self.get_emaildomain(self.dd_university.selected_value)\n\
-    \    self.label_emaildomain.visible = True\n    self.cb_confirmemail.visible =\
-    \ True\n    self.btn_submitPart1.visible = True  \n    pass\n \n  def get_emaildomain\
-    \ (self, argument):\n    # Map med schools to domains\n    switcher = {\n    \
-    \  \"Aberdeen\" :\t\"aberdeen.ac.uk\",\n      \"Barts\" :\t\"qmul.ac.uk\",\n \
-    \     \"Birmingham\" :\t\"student.bham.ac.uk\",\n      \"Brighton and Sussex\"\
-    \ :\t\"bsms.ac.uk\",\n      \"Bristol\" :\t\"my.bristol.ac.uk\",\n      \"Cambridge\"\
-    \ :\t\"cam.ac.uk\",\n      \"Cardiff\" :\t\"cardiff.ac.uk\",\n      \"Exeter\"\
-    \ :\t\"exeter.ac.uk\",\n      \"Dundee\" :\t\"dundee.ac.uk\",\n      \"Durham\"\
-    \ :\t\"durham.ac.uk\",\n      \"Edinburgh\" :\t\"sms.ed.ac.uk\",\n      \"Glasgow\"\
-    \ :\t\"student.gla.ac.uk\",\n      \"Hull York\" :\t\"hyms.ac.uk\",\n      \"\
-    Imperial\" :\t\"imperial.ac.uk\",\n      \"Keele\" :\t\"keele.ac.uk\",\n     \
-    \ \"King's\" :\t\"kcl.ac.uk\",\n      \"Lancaster\" :\t\"lancaster.ac.uk\",\n\
-    \      \"Leeds\" :\t\"leeds.ac.uk\",\n      \"Leicester\" :\t\"student.le.ac.uk\"\
-    ,\n      \"Liverpool\" :\t\"liv.ac.uk\",\n      \"Manchester\" :\t\"student.manchester.ac.uk\"\
-    ,\n      \"Newcastle\" :\t\"ncl.ac.uk\",\n      \"Norwich\" :\t\"uea.ac.uk\",\n\
-    \      \"Nottingham\" :\t\"nottingham.ac.uk\",\n      \"Oxford\" :\t\"medschool.ox.ac.uk\"\
-    ,\n      \"Plymouth\" :\t\"students.pcmd.ac.uk\",\n      \"Queen's\" :\t\"qub.ac.uk\"\
+    \ = False\n      if self.get_medSchool(self.dd_medSchool.selected_value) == \"\
+    not selected\":\n        self.label_university_error.visible = True\n        self.btn_submitPart1.enabled\
+    \ = False\n        self.cb_confirmemail.enabled = False\n      else:\n       \
+    \ self.label_university_error.visible = False\n        self.cb_confirmemail.enabled\
+    \ = True\n    else:\n      self.btn_submitPart1.enabled = False\n      self.cb_confirmemail.checked\
+    \ = False\n      self.cb_confirmemail.enabled = False\n      self.label_email_error.enabled\
+    \ = True\n      self.label_email_error.text = \"Please enter your email address\"\
+    \n    pass\n\n  def dd_medSchool_change (self, **event_args):\n    # Reset the\
+    \ confirm email box\n    self.cb_confirmemail.enabled = False\n    self.cb_confirmemail.checked\
+    \ = False\n    \n    # Show email message\n    self.label_email_error.text = \"\
+    (We'll send you a confirmation email here)\"\n\n    # Show the end of part 1 of\
+    \ the form if approriate\n    self.label_university_error.visible = False\n  \
+    \  if self.tb_email.text != \"\":\n      self.label_email_error.visible = False\n\
+    \      self.cb_confirmemail.enabled = True\n    pass\n    self.show_part1()\n\
+    \    \n  def cb_confirmemail_change (self, **event_args):\n    if self.cb_confirmemail.checked\
+    \ == True:\n      self.btn_submitPart1.enabled = True\n    pass\n  \n  def show_part1\
+    \ (self):\n    # Show email address boxes and next button\n    self.label_email.visible\
+    \ = True\n    self.label_email_error.visible = True\n    self.label_email_error.text\
+    \ = \"(We'll send you a confirmation email here)\"\n    self.tb_email.visible\
+    \ = True\n    self.tb_email.text = \"\"\n    self.cb_confirmemail.visible = True\n\
+    \    self.btn_submitPart1.visible = True  \n    pass\n \n  def get_medSchool (self,\
+    \ argument):\n    # Map med schools to domains\n    switcher = {\n      \"Aberdeen\"\
+    \ :\t\"aberdeen.ac.uk\",\n      \"Barts\" :\t\"qmul.ac.uk\",\n      \"Birmingham\"\
+    \ :\t\"student.bham.ac.uk\",\n      \"Brighton and Sussex\" :\t\"bsms.ac.uk\"\
+    ,\n      \"Bristol\" :\t\"my.bristol.ac.uk\",\n      \"Cambridge\" :\t\"cam.ac.uk\"\
+    ,\n      \"Cardiff\" :\t\"cardiff.ac.uk\",\n      \"Exeter\" :\t\"exeter.ac.uk\"\
+    ,\n      \"Dundee\" :\t\"dundee.ac.uk\",\n      \"Durham\" :\t\"durham.ac.uk\"\
+    ,\n      \"Edinburgh\" :\t\"sms.ed.ac.uk\",\n      \"Glasgow\" :\t\"student.gla.ac.uk\"\
+    ,\n      \"Hull York\" :\t\"hyms.ac.uk\",\n      \"Imperial\" :\t\"imperial.ac.uk\"\
+    ,\n      \"Keele\" :\t\"keele.ac.uk\",\n      \"King's\" :\t\"kcl.ac.uk\",\n \
+    \     \"Lancaster\" :\t\"lancaster.ac.uk\",\n      \"Leeds\" :\t\"leeds.ac.uk\"\
+    ,\n      \"Leicester\" :\t\"student.le.ac.uk\",\n      \"Liverpool\" :\t\"liv.ac.uk\"\
+    ,\n      \"Manchester\" :\t\"student.manchester.ac.uk\",\n      \"Newcastle\"\
+    \ :\t\"ncl.ac.uk\",\n      \"Norwich\" :\t\"uea.ac.uk\",\n      \"Nottingham\"\
+    \ :\t\"nottingham.ac.uk\",\n      \"Oxford\" :\t\"medschool.ox.ac.uk\",\n    \
+    \  \"Plymouth\" :\t\"students.pcmd.ac.uk\",\n      \"Queen's\" :\t\"qub.ac.uk\"\
     ,\n      \"Sheffield\" :\t\"sheffield.ac.uk\",\n      \"Southampton\" :\t\"soton.ac.uk\"\
     ,\n      \"St Andrews\" :\t\"st-andrews.ac.uk\",\n      \"St George's\"\t:\t\"\
     sgul.ac.uk\",\n      \"Swansea\" :\t\"swansea.ac.uk\",\n      \"UCL\" :\t\"ucl.ac.uk\"\
     ,\n      \"Warwick\" :\t\"warwick.ac.uk\"\n    }\n    return switcher.get(argument,\
     \ \"not selected\")\n  \n  def btn_submitPart1_click (self, **event_args):\n \
     \   # Read the data we want\n    self.firstname = self.tb_fn.text.strip()\n  \
-    \  self.surname = self.tb_sn.text.strip()\n    self.university = self.dd_university.selected_value\n\
-    \    self.email = (self.tb_email.text.strip())+\"@\"+(self.label_emaildomain.text)\n\
-    \    self.contactnumber = self.tb_contactnumber.text.strip()\n    \n    # Disable\
-    \ components in part 1\n    self.tb_fn.enabled = False\n    self.tb_sn.enabled\
-    \ = False\n    self.dd_university.enabled = False\n    self.tb_email.enabled =\
-    \ False\n    self.btn_submitPart1.enabled = False\n    self.tb_contactnumber.enabled\
-    \ = False\n    \n    #Show part 2 of the form\n    self.show_part2()\n    pass\n\
-    \  \n  def show_part2 (self):\n    # Hide leftover\n    self.label_university_error.visible\
-    \ = False\n    self.label_email_error.visible = False    \n    self.dd_university.enabled\
-    \ = False\n    self.tb_contactnumber.enabled = False\n\n    # Show next block\n\
-    \    self.label_heading_course.visible = True\n    self.label_course1.visible\
-    \ = True\n    self.dd_courseYear.visible = True\n    self.label_course2.visible\
-    \ = True\n    self.dd_courseDur.visible = True\n    self.label_course3.visible\
-    \ = True\n    self.label_year_clarificaton.visible = True\n    self.btn_submitPart2.visible\
-    \ = True\n    pass\n\n  def btn_submitPart2_click (self, **event_args):\n    #\
-    \ Read the data we want\n    self.courseyear = self.dd_courseYear.selected_value\n\
+    \  self.surname = self.tb_sn.text.strip()\n    self.university = self.dd_medSchool.selected_value\n\
+    \    self.email = (self.tb_email.text.strip())+\".ac.uk\"\n    self.contactnumber\
+    \ = self.tb_contactnumber.text.strip()\n    \n    # Disable components in part\
+    \ 1\n    self.tb_fn.enabled = False\n    self.tb_sn.enabled = False\n    self.dd_medSchool.enabled\
+    \ = False\n    self.tb_email.enabled = False\n    self.btn_submitPart1.enabled\
+    \ = False\n    self.tb_contactnumber.enabled = False\n    \n    #Show part 2 of\
+    \ the form\n    self.show_part2()\n    pass\n  \n  def show_part2 (self):\n  \
+    \  # Hide leftover\n    self.label_university_error.visible = False\n    self.label_email_error.visible\
+    \ = False    \n    self.dd_medSchool.enabled = False\n    self.tb_contactnumber.enabled\
+    \ = False\n\n    # Show next block\n    self.label_heading_course.visible = True\n\
+    \    self.label_course1.visible = True\n    self.dd_courseYear.visible = True\n\
+    \    self.label_course2.visible = True\n    self.dd_courseDur.visible = True\n\
+    \    self.label_course3.visible = True\n    self.label_year_clarificaton.visible\
+    \ = True\n    self.btn_submitPart2.visible = True\n    pass\n\n  def btn_submitPart2_click\
+    \ (self, **event_args):\n    # Read the data we want\n    self.courseyear = self.dd_courseYear.selected_value\n\
     \    self.courselength = self.dd_courseDur.selected_value\n    \n    # Disable\
     \ components in part 2\n    self.dd_courseYear.enabled = False\n    self.dd_courseDur.enabled\
     \ = False\n    self.btn_submitPart2.enabled = False    \n    \n    # Show part\
@@ -289,7 +273,7 @@ forms:
       visible: true
       row_spacing: 10
       spacing_above: large
-      col_widths: '{"TERGEG":4,"FUWNSS":8,"ZLUEMO":4,"KBWJIR":8,"HVEYMT":5,"JBFDAU":1,"LPLNOB":6,"GVSNGX":5,"OUMSGK":1,"XYBAAG":6,"WABABQ":4,"JAYXGG":3,"RSONGV":1,"FFUYHK":4,"LSXYRD":4,"HRHCSQ":8,"ZFHZEZ":5,"GBADMZ":2,"YUYOFV":5,"JSYMFJ":4,"BJUTNM":8,"WHVCDE":4,"INQWDB":8,"SDIVTA":4,"ARHWGH":3,"QFVGYI":1,"FBZVYC":4,"BBNVCD":1,"AAWTAT":11,"EHGADI":1,"MXKWUP":11,"HTMEMF":1,"LOHYNK":5,"UWMYAN":3,"VAOYCV":3,"INVHKV":4,"CNXKJQ":4,"IJJMCW":4,"FHDAVK":5,"DVTJWZ":2,"RMMFRC":5,"IQIBCD":1,"QFILKQ":11,"EBQFGG":5,"XVPLLY":2,"JQBQOR":5,"CXCZJK":4,"XJKOAE":8}'
+      col_widths: '{"TERGEG":4,"FUWNSS":8,"ZLUEMO":4,"KBWJIR":8,"HVEYMT":5,"JBFDAU":1,"LPLNOB":6,"GVSNGX":5,"OUMSGK":1,"XYBAAG":6,"WABABQ":4,"JAYXGG":3,"RSONGV":1,"FFUYHK":4,"LSXYRD":4,"HRHCSQ":8,"ZFHZEZ":5,"GBADMZ":2,"YUYOFV":5,"JSYMFJ":4,"BJUTNM":8,"WHVCDE":4,"INQWDB":8,"BBNVCD":1,"AAWTAT":11,"EHGADI":1,"MXKWUP":11,"HTMEMF":1,"LOHYNK":5,"UWMYAN":3,"VAOYCV":3,"INVHKV":4,"CNXKJQ":4,"IJJMCW":4,"FHDAVK":5,"DVTJWZ":2,"RMMFRC":5,"IQIBCD":1,"QFILKQ":11,"EBQFGG":5,"XVPLLY":2,"JQBQOR":5,"CXCZJK":4,"XJKOAE":8}'
       spacing_below: small
       data: {}
       background: ''
@@ -398,9 +382,9 @@ forms:
       background: ''
       bold: false
       underline: false
-    name: dd_university
+    name: dd_medSchool
     layout_properties: {grid_position: 'ASVQKV,BJUTNM'}
-    event_bindings: {change: dd_university_change}
+    event_bindings: {change: dd_medSchool_change}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
       text: 'Email address *:', font_size: 18, font: Calibri, spacing_above: small,
@@ -417,18 +401,11 @@ forms:
     layout_properties: {grid_position: 'SIYWIU,ARHWGH'}
     event_bindings: {change: tb_email_change}
   - type: Label
-    properties: {width: default, align: center, border: '', foreground: '', visible: false,
-      text: ' @ ', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
-      spacing_below: none, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    name: label_at
-    layout_properties: {grid_position: 'SIYWIU,QFVGYI'}
-  - type: Label
     properties: {width: default, align: left, border: '', foreground: '', visible: true,
-      text: '', font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
+      text: .ac.uk, font_size: 18, font: Calibri, spacing_above: small, icon_align: left,
       spacing_below: none, italic: false, background: '', bold: false, underline: false,
       icon: ''}
-    name: label_emaildomain
+    name: label_acuk
     layout_properties: {grid_position: 'SIYWIU,FBZVYC'}
   - type: Label
     properties: {width: default, align: right, border: '', foreground: '', visible: false,
@@ -894,104 +871,117 @@ forms:
       icon: ''}
     name: label_thanks
     layout_properties: {grid_position: 'PTXPQT,IJJMCW', row_background: ''}
-$promise: {}
 name: NSAMR -- Research -- Project application form
+runtime_options: {}
 startup_form: ProjectApplicationForm
+$promise: {}
+server_modules:
+- {name: Utils, code: "import google.auth, google.drive, google.mail\nfrom google.drive\
+    \ import app_files\nimport anvil.server\n\nimport datetime\n  \n@anvil.server.callable\n\
+    def get_timestamp ():\n  timestamp = datetime.datetime.now()\n  return timestamp\n\
+    \n@anvil.server.callable\ndef put_in_spreadsheet (row_list): \n  in_timestamp=row_list[0]\n\
+    \  in_idtoken=row_list[1]\n  in_firstname=row_list[2]\n  in_surname=row_list[3]\n\
+    \  in_email=row_list[4]\n  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n\
+    \  in_courseyear=row_list[7]\n  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n\
+    \  in_projectnumber_2=row_list[10]\n  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n\
+    \  in_education=row_list[13]\n  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n\
+    \  in_publications=row_list[16]\n  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n\
+    \  in_why=row_list[19]\n  \n  # Get the spreadsheet\n  google.sheets.add_missing_fields\
+    \ = True\n  db = google.drive.app_files.applications\n  ws = db.worksheets[0]\n\
+    \  \n  # Make timestamp prettier\n  in_timestamp = \"%s\" % in_timestamp.replace(\"\
+    +00:00\",\"\")\n  \n  # Write to the spreadsheet\n  row = ws.add_row(timestamp\
+    \ = in_timestamp,\n                   idtoken = in_idtoken,\n                \
+    \   firstname = in_firstname,\n                   surname = in_surname,\n    \
+    \               emailaddress = in_email,\n                   university = in_university,\n\
+    \                   contactnumber = in_contactnumber,\n                   courseyear\
+    \ = in_courseyear,\n                   courselength = in_courselength,\n     \
+    \              projectnumber_1 = in_projectnumber_1,\n                   projectnumber_2\
+    \ = in_projectnumber_2,\n                   projectnumber_3 = in_projectnumber_3,\n\
+    \                   workexperience = in_workexperience,\n                   education\
+    \ = in_education,\n                   teaching = in_teaching,\n              \
+    \     leadership = in_leadership,\n                   publications = in_publications,\n\
+    \                   hoursperweek = in_hoursperweek,\n                   impact\
+    \ = in_impact,\n                   why = in_why)\n  return\n\n@anvil.server.callable\n\
+    def send_confirmation_email (row_list):\n  in_timestamp=row_list[0]\n  in_idtoken=row_list[1]\n\
+    \  in_firstname=row_list[2]\n  in_surname=row_list[3]\n  in_email=row_list[4]\n\
+    \  in_university=row_list[5]\n  in_contactnumber=row_list[6]\n  in_courseyear=row_list[7]\n\
+    \  in_courselength=row_list[8]\n  in_projectnumber_1=row_list[9]\n  in_projectnumber_2=row_list[10]\n\
+    \  in_projectnumber_3=row_list[11]\n  in_workexperience=row_list[12]\n  in_education=row_list[13]\n\
+    \  in_teaching=row_list[14]\n  in_leadership=row_list[15]\n  in_publications=row_list[16]\n\
+    \  in_hoursperweek=row_list[17]\n  in_impact=row_list[18]\n  in_why=row_list[19]\n\
+    \  google.mail.send(to = in_email,\n                   bcc = [\"chair@nsamr.ac.uk\"\
+    ,\n                          \"research@nsamr.ac.uk\",\n                     \
+    \     \"it@nsamr.ac.uk\"],\n                   subject = \"[NSAMR] Research project\
+    \ application: please confirm your email address\",\n                   text =\n\
+    \    \"\"\"\n    Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\"\",\n \
+    \ \n    Thanks for your interest in applying for one of the research projects\
+    \ offered by the National Student Association for Medical Research. For your reference,\
+    \ please find a copy of the information you have provided us below.\n    \n  \
+    \  Please reply to this email so we know that \"\"\"+in_email+\"\"\" points to\
+    \ a real person. (You don't have to write anything in your reply, but we like\
+    \ it when people say hello. We also like funny cat pictures.)\n    \n    We'll\
+    \ contact you again when have heard from the relevant project supervisor.\n  \
+    \  \n    If you have any questions at all, or want to change the the information\
+    \ you gave us, please don't hesitate to get in touch.\n  \n    NSAMR love,\n \
+    \   \n    Robert Lundin, Chair: chair@nsamr.ac.uk\n    and\n    Research team:\
+    \ research@nsamr.ac.uk    \n    www.nsamr.ac.uk, https://twitter.com/nsamr\n \
+    \   \n    \n    Don't recognise this email? Please forward it to it@nsamr.ac.uk\
+    \ so we can investigate.\n    \n    \n    ------------------------------------\n\
+    \    Submission date and time: \"\"\"+in_timestamp+\"\"\"\n    Name: \"\"\"+in_firstname+\"\
+    \"\" \"\"\"+in_surname+\"\"\"\n    Email address: \"\"\"+in_email+\"\"\"\n   \
+    \ Contact number: \"\"\"+in_contactnumber+\"\"\"\n    Course year \"\"\"+in_courseyear+\"\
+    \"\" of \"\"\"+in_courselength+\"\"\"\n    \n    First choice project: \"\"\"\
+    +in_projectnumber_1+\"\"\"\n    Second choice project: \"\"\"+in_projectnumber_2+\"\
+    \"\"\n    Third choice project: \"\"\"+in_projectnumber_3+\"\"\"\n    \n    Please\
+    \ tell us about your work/volunteer experience (max 200 words)\n    \"\"\"+in_workexperience+\"\
+    \"\"\n    \n    Please tell us about any educational achievements, prizes and\
+    \ awards (max 100 words) \n    \"\"\"+in_education+\"\"\"\n    \n    Please tell\
+    \ us about any of your teaching experiences (max 100 words) \n    \"\"\"+in_teaching+\"\
+    \"\"\n        \n    Please tell us about your leadership/managerial experiences\
+    \ and other non academic/extracurricular achievements (max 100 words) \n    \"\
+    \"\"+in_leadership+\"\"\"\n    \n    Please tell us about any publications, oral\
+    \ or poster presentations. \n    \"\"\"+in_publications+\"\"\"\n    \n    How\
+    \ many hours per week can you dedicate to a NSAMR research project? \n    \"\"\
+    \"+in_hoursperweek+\"\"\"\n    \n    Please explain the impact of your academic/non-academic\
+    \ work during medical school towards your future career (max 200 words) \n   \
+    \ \"\"\"+in_impact+\"\"\"\n    \n    Why would you like to get involved with an\
+    \ NSAMR research project (max 200 words) \n    \"\"\"+in_why+\"\"\"\n    \n  \
+    \  ID token\n    \"\"\"+in_idtoken+\"\"\"    \n    \n    \"\"\",\n           \
+    \       html = \n    \"\"\"\n    <p>Dear \"\"\"+in_firstname+\"\"\" \"\"\"+in_surname+\"\
+    \"\",</p>\n  \n    <p>Thanks for your interest in applying for one of the research\
+    \ projects offered by the National Student Association for Medical Research.</p>\n\
+    \    \n    <p>Please reply to this email so we know \"\"\"+in_email+\"\"\" points\
+    \ to a real person. (You don't have to write anything in your reply, but we like\
+    \ it when people say hello. We also like funny cat pictures.)</p>\n    \n    <p>We'll\
+    \ contact you again when we have heard from the relevant project supervisor.</p>\n\
+    \    \n    <p>If you have any questions at all, or want to change the the information\
+    \ you gave us, please don't hesitate to get in touch.</p>\n  \n    <p>NSAMR love,</p>\n\
+    \    \n    <p>Robert Lundin, Chair: chair@nsamr.ac.uk</p>\n    <p>and</p>\n  \
+    \  <p>Research team: research@nsamr.ac.uk</p>\n    <p><a href=\"www.nsamr.ac.uk\"\
+    >www.nsamr.ac.uk</a>, <a href=\"https://twitter.com/nsamr\">@NSAMR</a></p>\n \
+    \   <br>\n    <br>\n    <p>Don't recognise this email? Please forward it to <a\
+    \ href=\"it@nsamr.ac.uk\">it@nsamr.ac.uk</a> so we can investigate...</p>\n  \
+    \  <br>    \n    <br>    \n    <p>------------------------------------</p>\n \
+    \   Submission date and time: \"\"\"+in_timestamp+\"\"\"<br>\n    Name: \"\"\"\
+    +in_firstname+\"\"\" \"\"\"+in_surname+\"\"\"<br>\n    Email address: \"\"\"+in_email+\"\
+    \"\"<br>\n    Contact number: \"\"\"+in_contactnumber+\"\"\"<br>\n    Course year\
+    \ \"\"\"+in_courseyear+\"\"\" of \"\"\"+in_courselength+\"\"\"<br>\n    <br>\n\
+    \    First choice project: \"\"\"+in_projectnumber_1+\"\"\"<br>\n    Second choice\
+    \ project: \"\"\"+in_projectnumber_2+\"\"\"<br>\n    Third choice project: \"\"\
+    \"+in_projectnumber_3+\"\"\"<br>\n    <br>\n    Please tell us about your work/volunteer\
+    \ experience (max 200 words)<br>\n    \"\"\"+in_workexperience+\"\"\"<br>\n  \
+    \  <br>\n    Please tell us about any educational achievements, prizes and awards\
+    \ (max 100 words) <br>\n    \"\"\"+in_education+\"\"\"<br>\n    <br>\n    Please\
+    \ tell us about any of your teaching experiences (max 100 words) <br>\n    \"\"\
+    \"+in_teaching+\"\"\"<br>\n    <br>\n    Please tell us about your leadership/managerial\
+    \ experiences and other non academic/extracurricular achievements (max 100 words)\
+    \ <br>\n    \"\"\"+in_leadership+\"\"\"<br>\n    <br>\n    Please tell us about\
+    \ any publications, oral or poster presentations <br>\n    \"\"\"+in_publications+\"\
+    \"\"<br>\n    <br>\n    \n    How many hours per week can you dedicate to a NSAMR\
+    \ research project? <br>\n    \"\"\"+in_hoursperweek+\"\"\"<br>\n    <br>\n  \
+    \  Please explain the impact of your academic/non-academic work during medical\
+    \ school towards your future career (max 200 words) <br>\n    \"\"\"+in_impact+\"\
+    \"\"<br>\n    <br>\n    Why would you like to get involved with an NSAMR research\
+    \ project (max 200 words) <br>\n    \"\"\"+in_why+\"\"\"<br>\n    <br>\n    <br>\n\
+    \    ID token: \"\"\"+in_idtoken+\"\"\" <br>\n    \"\"\")"}
 renamed: true
-services:
-- source: /runtime/services/google.yml
-  client_config:
-    app_files:
-    - editable: true
-      copyable: true
-      embedLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/htmlembed
-      python_name: applications
-      explicitlyTrashed: false
-      lastModifyingUser:
-        kind: drive#user
-        displayName: Helen Jackson
-        picture: {url: 'https://lh4.googleusercontent.com/-9pCNXVTvSFs/AAAAAAAAAAI/AAAAAAAAAAA/QIZGAu9NFgM/s64/photo.jpg'}
-        isAuthenticatedUser: false
-        permissionId: 09022922714034085283
-        emailAddress: jacksonh@nsamr.ac.uk
-      shared: true
-      createdDate: '2017-01-29T13:57:46.271Z'
-      id: 1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
-      owners:
-      - {kind: drive#user, displayName: Helen Jackson, isAuthenticatedUser: false,
-        permissionId: '12006330058224577531', emailAddress: helenj@ckson.io}
-      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
-      spaces: [drive]
-      parents:
-      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        isRoot: false}
-      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
-      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_spreadsheet_list.png
-      selfLink: https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU
-      lastViewedByMeDate: '2017-01-30T11:57:44.531Z'
-      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/Cg6YprTE1HypXPzrum1e2pjBdbM"',
-        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/permissions/me',
-        role: writer, type: user}
-      lastModifyingUserName: Helen Jackson
-      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3NzU3OTgzMQ"'
-      kind: drive#file
-      modifiedByMeDate: '2017-01-30T11:57:44.531Z'
-      title: research-INCOMING-project-applications
-      version: '10573'
-      appDataContents: false
-      writersCanShare: true
-      alternateLink: https://docs.google.com/spreadsheets/d/1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU/edit?usp=drivesdk
-      mimeType: application/vnd.google-apps.spreadsheet
-      modifiedDate: '2017-01-30T11:59:39.831Z'
-      quotaBytesUsed: '0'
-      exportLinks: {x-vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods',
-        tab-separated-values: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=tsv',
-        pdf: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=pdf',
-        vnd.openxmlformats-officedocument.spreadsheetml.sheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=xlsx',
-        csv: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=csv',
-        zip: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=zip',
-        vnd.oasis.opendocument.spreadsheet: 'https://docs.google.com/spreadsheets/export?id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&exportFormat=ods'}
-      thumbnailLink: https://docs.google.com/feeds/vt?gd=true&id=1pCH_-uCuVLkuNSn3FHnjaqkdbwmtKZ22drLC_JFzSeU&v=38&s=AMedNnoAAAAAWI9OoNE645JyLRXTVsBWIUtWbXfsiqwL&sz=s220
-      ownerNames: [Helen Jackson]
-    - editable: true
-      copyable: false
-      embedLink: https://drive.google.com/embeddedfolderview?id=0B0p3VsEOn3TcTmhuMWxZaXRDMm8
-      python_name: test_uploads
-      explicitlyTrashed: false
-      lastModifyingUser: {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true,
-        permissionId: '18085892464376200296', emailAddress: nsamr.web@gmail.com}
-      shared: true
-      createdDate: '2017-01-30T12:34:10.503Z'
-      id: 0B0p3VsEOn3TcTmhuMWxZaXRDMm8
-      owners:
-      - {kind: drive#user, displayName: NSAMR Web, isAuthenticatedUser: true, permissionId: '18085892464376200296',
-        emailAddress: nsamr.web@gmail.com}
-      markedViewedByMeDate: '1970-01-01T00:00:00.000Z'
-      spaces: [drive]
-      parents:
-      - {kind: drive#parentReference, id: 0BxE_w4AmlhvBandCVmMyLXRDcTg, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/parents/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        parentLink: 'https://www.googleapis.com/drive/v2/files/0BxE_w4AmlhvBandCVmMyLXRDcTg',
-        isRoot: false}
-      labels: {starred: false, hidden: false, trashed: false, restricted: false, viewed: true}
-      iconLink: https://ssl.gstatic.com/docs/doclist/images/icon_11_shared_collection_list_1.png
-      selfLink: https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
-      lastViewedByMeDate: '2017-01-30T12:34:10.503Z'
-      userPermission: {kind: drive#permission, etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/sWrZkA0yUeDETOQgJDM98HzLcfw"',
-        id: me, selfLink: 'https://www.googleapis.com/drive/v2/files/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/permissions/me',
-        role: owner, type: user}
-      lastModifyingUserName: NSAMR Web
-      etag: '"LbWe7Ybz7gmJtEmo4LFBfsRw3MM/MTQ4NTc3OTY1MDUwMw"'
-      kind: drive#file
-      modifiedByMeDate: '2017-01-30T12:34:10.503Z'
-      title: test-uploads
-      version: '15235'
-      appDataContents: false
-      writersCanShare: true
-      alternateLink: https://drive.google.com/drive/folders/0B0p3VsEOn3TcTmhuMWxZaXRDMm8
-      mimeType: application/vnd.google-apps.folder
-      modifiedDate: '2017-01-30T12:34:10.503Z'
-      quotaBytesUsed: '0'
-      webViewLink: https://644a037991b3a975626958cd4701b640f180eca6.googledrive.com/host/0B0p3VsEOn3TcTmhuMWxZaXRDMm8/
-      ownerNames: [NSAMR Web]
-  server_config: {}
